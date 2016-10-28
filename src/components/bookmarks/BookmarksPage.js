@@ -16,7 +16,7 @@ class BookmarksPage extends Component {
         return (
             <div className="container">
                 <div id="search">
-                    <BookmarksSearchFilter searchString="searchString">
+                    <BookmarksSearchFilter>
                     </BookmarksSearchFilter>
                 </div>
                 <div id="bookmarks-list">

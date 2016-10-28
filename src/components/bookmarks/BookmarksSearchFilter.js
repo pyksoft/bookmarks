@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import autoBind from 'react-autobind';
-import Todo from '../Todo';
 import './BookmarksSearchFilter.css';
 
 class BookmarksSearchFilter extends Component {
@@ -11,7 +10,8 @@ class BookmarksSearchFilter extends Component {
             foundBookmarksCount: 0,
             totalBookmarksCount: 0,
             taggedBookmarksCount: 0,
-            deletedBookmarksCount: 0
+            deletedBookmarksCount: 0,
+            searchStr: ''
         };
 
         autoBind(this);
@@ -48,10 +48,22 @@ class BookmarksSearchFilter extends Component {
                 <div className="form-group">
                     <h4 className="col-xs-12">Filter:</h4>
                     <div className="col-xs-12">
-                        <input type="text" className="form-control"/>
+                        <input type="text"
+                               value={this.state.searchStr}
+                               className="form-control"
+                               onChange={(event) => {
+                                   this.setState({
+                                       searchStr: event.target.value
+                                   });
+                               }}
+                               onKeyPress={(target) => {
+                                   if (target.charCode === 13) {
+                                       this.search();
+                                   }
+                               }}
+                        />
                     </div>
                 </div>
-                <Todo>Implement mode selection</Todo>
 
                 <div className="form-group">
                     <div className="col-xs-12 results-row">
