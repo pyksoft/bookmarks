@@ -5,6 +5,7 @@ import autoBind from 'react-autobind';
 import Navigation from './Navigation';
 import BookmarksPage from './bookmarks/BookmarksPage';
 import TagsPage from './tags/TagsPage';
+import ImportPage from './import/ImportPage';
 import SettingsPage from './settings/SettingsPage';
 import HelpPage from './help/HelpPage';
 
@@ -34,6 +35,10 @@ class App extends Component {
             case 'Tags':
                 return (
                     <TagsPage/>
+                );
+            case 'Import':
+                return (
+                    <ImportPage/>
                 );
             case 'Settings':
                 return (

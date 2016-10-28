@@ -1,0 +1,9 @@
+#import-div {
+    padding: 20px;
+    height: 100%;
+}
+
+#import-div .import-row {
+    text-align: right;
+    margin-top: 8px;
+}

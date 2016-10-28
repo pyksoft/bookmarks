@@ -119,3 +119,7 @@ a:hover {
   margin: 40px;
   color: black;
 }
+
+.display-none {
+  display: none;
+}
