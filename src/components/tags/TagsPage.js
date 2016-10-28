@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import autoBind from 'react-autobind';
+import TagsList from './TagsList';
+import './TagsPage.css';
 
-class BookmarksPage extends Component {
+class TagsPage extends Component {
     constructor(props) {
         super(props);
 
@@ -13,11 +15,13 @@ class BookmarksPage extends Component {
 
     render() {
         return (
-            <div>
-                Tags Page
+            <div className="container">
+                <div id="tag-list">
+                    <TagsList></TagsList>
+                </div>
             </div>
         );
     }
 }
 
-export default BookmarksPage;
+export default TagsPage;

@@ -37,7 +37,7 @@ class ImportPage extends Component {
                         From browser bookmarks - bookmarks will be merged
                     </div>
                     <div className="col-xs-3 col-sm-height">
-                        <button className="btn btn-default" onClick={this.importAction('browser')}>Import bookmarks</button>
+                        <button className="btn btn-default" onClick={() => this.importAction('browser')}>Import bookmarks</button>
                     </div>
                 </div>
 
@@ -46,7 +46,7 @@ class ImportPage extends Component {
                         From backup file - bookmarks will be overridden
                     </div>
                     <div className="col-xs-3">
-                        <button className="btn btn-default" onClick={this.importAction('backup')}>Import from backup</button>
+                        <button className="btn btn-default" onClick={() => this.importAction('backup')}>Import from backup</button>
                     </div>
                 </div>
 
@@ -55,7 +55,7 @@ class ImportPage extends Component {
                         Export to backup file
                     </div>
                     <div className="col-xs-3">
-                        <button className="btn btn-default" onClick={this.exportBookmarks}>Export to backup</button>
+                        <button className="btn btn-default" onClick={() => this.exportBookmarks}>Export to backup</button>
                     </div>
                 </div>
 
