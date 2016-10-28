@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import autoBind from 'react-autobind';
 
-class BookmarksPage extends Component {
+class Todo extends Component {
     constructor(props) {
         super(props);
 
@@ -14,10 +14,10 @@ class BookmarksPage extends Component {
     render() {
         return (
             <div>
-                Tags Page
+                TODO:{this.props.children}
             </div>
         );
     }
 }
 
-export default BookmarksPage;
+export default Todo;

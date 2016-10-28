@@ -5,6 +5,7 @@ import autoBind from 'react-autobind';
 import Navigation from './Navigation';
 import BookmarksPage from './bookmarks/BookmarksPage';
 import TagsPage from './tags/TagsPage';
+import HelpPage from './help/HelpPage';
 
 class App extends Component {
     constructor(props) {
@@ -32,6 +33,10 @@ class App extends Component {
             case 'Tags':
                 return (
                     <TagsPage/>
+                );
+            case 'Help':
+                return (
+                    <HelpPage/>
                 );
             default:
                 return null;

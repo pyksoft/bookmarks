@@ -1,21 +1,27 @@
 import React, {Component} from 'react';
 import autoBind from 'react-autobind';
-import classnames from 'classnames';
+import BookmarksSearchFilter from './BookmarksSearchFilter';
+import BookmarksList from './BookmarksList';
 
 class BookmarksPage extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-        };
+        this.state = {};
 
         autoBind(this);
     }
 
     render() {
         return (
-            <div>
-                Bookmarks Page
+            <div className="container">
+                <div id="search">
+                    <BookmarksSearchFilter searchString="searchString">
+                    </BookmarksSearchFilter>
+                </div>
+                <div id="bookmarks-list">
+                    <BookmarksList></BookmarksList>
+                </div>
             </div>
         );
     }

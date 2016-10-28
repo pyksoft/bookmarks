@@ -114,3 +114,8 @@ a:hover {
 .tag-row .tag-cell.tools {
   min-width: 100px;
 }
+
+.help-block {
+  margin: 40px;
+  color: black;
+}

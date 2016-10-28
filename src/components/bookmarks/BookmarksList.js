@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import autoBind from 'react-autobind';
+import './BookmarksPage.css';
 
-class BookmarksPage extends Component {
+class BookmarksList extends Component {
     constructor(props) {
         super(props);
 
@@ -14,10 +15,10 @@ class BookmarksPage extends Component {
     render() {
         return (
             <div>
-                Tags Page
+
             </div>
         );
     }
 }
 
-export default BookmarksPage;
+export default BookmarksList;
