@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import autoBind from 'react-autobind';
 import ListAction from '../common/ListAction';
+import Confirm from '../common/Confirm';
 import TagItem from './TagItem';
 import './TagsList.css';
 
@@ -15,7 +16,8 @@ class TagsList extends Component {
                 { id: 3, title: "informative", description: "interesting information"},
                 { id: 4, title: "travel", description: ""},
                 { id: 5, title: "news", description: ""}
-            ]
+            ],
+            tagToDeleteId: null
         };
 
         autoBind(this);
@@ -31,6 +33,22 @@ class TagsList extends Component {
 
     deleteTag(tagId) {
         console.log('todo');
+
+        this.setState({
+            tagToDeleteId: null
+        });
+    }
+
+    confirmDeleteTag(id) {
+        this.setState({
+            tagToDeleteId: id
+        });
+    }
+
+    cancelDeleteTag() {
+        this.setState({
+            tagToDeleteId: null
+        });
     }
 
     get anyTags() {
@@ -42,6 +60,8 @@ class TagsList extends Component {
         if (!this.anyTags) return (
             <div id="info-message">You do not have any tags.</div>
         );
+
+        let deleteConfirmVisible = this.state.tagToDeleteId ? true : false;
 
         return (
             <div>
@@ -67,11 +87,13 @@ class TagsList extends Component {
                             return <TagItem key={tag.id}
                                             tag={tag}
                                             editTagAction={this.editTag} 
-                                            deleteTagAction={this.deleteTag} 
+                                            deleteTagAction={this.confirmDeleteTag} 
                             />
                         })
                     }
                 </div>
+
+                <Confirm visible={deleteConfirmVisible} action={this.deleteTag} close={this.cancelDeleteTag}/>
             </div>
         );
     }
