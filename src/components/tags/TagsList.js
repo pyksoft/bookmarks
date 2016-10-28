@@ -3,6 +3,7 @@ import autoBind from 'react-autobind';
 import ListAction from '../common/ListAction';
 import Confirm from '../common/Confirm';
 import TagItem from './TagItem';
+import SaveTag from './SaveTag';
 import './TagsList.css';
 
 class TagsList extends Component {
@@ -17,20 +18,47 @@ class TagsList extends Component {
                 { id: 4, title: "travel", description: ""},
                 { id: 5, title: "news", description: ""}
             ],
-            tagToDeleteId: null
+            tagToDeleteId: null,
+            tagToEdit: null
         };
 
         autoBind(this);
     }
 
     addTag() {
-        console.log('todo');
+        this.setState({
+            tagToEdit: Object.assign({}, {})
+        });
     }
 
     editTag(tag) {
-        console.log('todo');
+        this.setState({
+            tagToEdit: Object.assign({}, tag)
+        });
     }
 
+    cancelEditTag() {
+        this.setState({
+            tagToEdit: null
+        });
+    }
+
+    updateTagState(field, value) {
+        let tag = this.state.tagToEdit;
+
+        tag[field] = value;
+
+        return this.setState({tagToEdit: tag});
+    }
+
+    saveTag() {
+        console.log('todo');
+
+        this.setState({
+            tagToEdit: null
+        });
+    }
+    
     deleteTag(tagId) {
         console.log('todo');
 
@@ -62,6 +90,7 @@ class TagsList extends Component {
         );
 
         let deleteConfirmVisible = this.state.tagToDeleteId ? true : false;
+        let editTagVisible = this.state.tagToEdit ? true : false;
 
         return (
             <div>
@@ -86,14 +115,17 @@ class TagsList extends Component {
                         this.state.tags.map(tag => {
                             return <TagItem key={tag.id}
                                             tag={tag}
-                                            editTagAction={this.editTag} 
+                                            editTagAction={this.editTag}
                                             deleteTagAction={this.confirmDeleteTag} 
                             />
                         })
                     }
                 </div>
 
-                <Confirm visible={deleteConfirmVisible} action={this.deleteTag} close={this.cancelDeleteTag}/>
+                <Confirm visible={deleteConfirmVisible} action={this.deleteTag} close={this.cancelDeleteTag} />
+
+                <SaveTag visible={editTagVisible} tag={this.state.tagToEdit} save={this.saveTag}
+                         close={this.cancelEditTag} onChange={this.updateTagState} />
             </div>
         );
     }
