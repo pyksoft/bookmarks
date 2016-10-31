@@ -3,6 +3,7 @@ import autoBind from 'react-autobind';
 import './BookmarksSearchFilter.css';
 import BookmarkSearchMode from './BookmarkSearchMode';
 import TagSelector from '../common/TagSelector';
+import tagService from '../../services/tagService';
 
 class BookmarksSearchFilter extends Component {
     constructor(props) {
@@ -27,10 +28,28 @@ class BookmarksSearchFilter extends Component {
                     id: 'deleted',
                     active: false
                 }
-            }
+            },
+            tags: [],
+            selectedTags: [],
+            tagsOptions: []
         };
 
         autoBind(this);
+    }
+
+    componentDidMount() {
+        tagService.getTags()
+            .then((tags) => {
+                let tagsOptions = tags.map(tag => ({
+                    value: tag.title,
+                    label: tag.title
+                }));
+
+                this.setState({
+                    tags,
+                    tagsOptions
+                });
+            });
     }
 
     search() {
@@ -54,7 +73,29 @@ class BookmarksSearchFilter extends Component {
         this.setState(this.state);
     }
 
+    updateState(field, value) {
+        if (!value) {
+            return this.setState({selectedTags: []});
+        }
+
+        let selectedTags = this.state.selectedTags;
+
+        let index = selectedTags.indexOf(value);
+
+        if (index === -1) {
+            selectedTags.push(value);
+        } else {
+            selectedTags.splice(index, 1);
+        }
+
+        return this.setState({selectedTags});
+    }
+
     render() {
+        let selectedTags = this.state.tagsOptions.filter(to => {
+            return this.state.selectedTags.indexOf(to.value) !== -1;
+        });
+
         return (
             <div>
                 <div className="col-xs-12 title-row">
@@ -107,8 +148,15 @@ class BookmarksSearchFilter extends Component {
                                         id={this.state.searchMode.tagsSelection.id}
                                         active={this.state.searchMode.tagsSelection.active}
                                         onToggle={this.toggleSearchMode}>
-                        Select tags:
 
+                        <TagSelector
+                            name="tags"
+                            label="Select tags:"
+                            multi={true}
+                            options={this.state.tagsOptions}
+                            value={selectedTags}
+                            onChange={this.updateState}
+                        />
                     </BookmarkSearchMode>
                     <BookmarkSearchMode title="Deleted bookmarks"
                                         id={this.state.searchMode.deleted.id}
