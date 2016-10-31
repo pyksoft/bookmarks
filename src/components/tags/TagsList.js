@@ -5,24 +5,28 @@ import Confirm from '../common/Confirm';
 import TagItem from './TagItem';
 import SaveTag from './SaveTag';
 import './TagsList.css';
+import tagService from '../../services/tagService';
 
 class TagsList extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            tags: [
-                { id: 1, title: "programming", description: ""},
-                { id: 2, title: "Australia", description: ""},
-                { id: 3, title: "informative", description: "interesting information"},
-                { id: 4, title: "travel", description: ""},
-                { id: 5, title: "news", description: ""}
-            ],
+            tags: [],
             tagToDeleteId: null,
             tagToEdit: null
         };
 
         autoBind(this);
+    }
+
+    componentDidMount() {
+        tagService.getTags()
+            .then((tags) => {
+                this.setState({
+                    tags
+                });
+            });
     }
 
     addTag() {
