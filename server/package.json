@@ -1,0 +1,23 @@
+{
+  "name": "server",
+  "private": true,
+  "scripts": {
+    "package": "node ./tasks/package"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/body-parser": "0.0.33",
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "lodash": "^4.16.5",
+    "morgan": "^1.7.0"
+  },
+  "devDependencies": {
+    "rollup": "^0.36.3",
+    "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-json": "^2.0.2",
+    "rollup-plugin-node-resolve": "^2.0.0"
+  }
+}
