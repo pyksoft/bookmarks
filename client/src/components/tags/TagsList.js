@@ -93,7 +93,7 @@ class TagsList extends Component {
             <div id="info-message">You do not have any tags.</div>
         );
 
-        let deleteConfirmVisible = this.state.tagToDeleteId ? true : false;
+        let deleteConfirmVisible = this.state.bookmarkToDeleteId ? true : false;
         let editTagVisible = this.state.tagToEdit ? true : false;
 
         return (

@@ -108,7 +108,7 @@ class BookmarksSearchFilter extends Component {
                                         active={this.state.searchMode.tagsSelection.active}
                                         onToggle={this.toggleSearchMode}>
                         Select tags:
-                        <TagSelector tags="allTags" selected-tags="selectedTags"></TagSelector>
+
                     </BookmarkSearchMode>
                     <BookmarkSearchMode title="Deleted bookmarks"
                                         id={this.state.searchMode.deleted.id}

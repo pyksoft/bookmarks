@@ -3,8 +3,11 @@ import {Pagination, ButtonToolbar, DropdownButton, MenuItem} from 'react-bootstr
 import autoBind from 'react-autobind';
 import './BookmarksList.css';
 import ListAction from '../common/ListAction';
+import Confirm from '../common/Confirm';
 import BookmarkItem from './BookmarkItem';
+import SaveBookmark from './SaveBookmark';
 import bookmarkService from '../../services/bookmarkService';
+import tagService from '../../services/tagService';
 
 class BookmarksList extends Component {
     constructor(props) {
@@ -12,9 +15,10 @@ class BookmarksList extends Component {
 
         this.state = {
             bookmarks: [],
+            tags: [],
             total: 0,
             bookmarkToEdit: null,
-            tagToDeleteId: null,
+            bookmarkToDeleteId: null,
             selectedBookmarks: [],
             allSelected: false,
             activePage: 1,
@@ -26,7 +30,14 @@ class BookmarksList extends Component {
     }
 
     componentDidMount() {
-        this.loadData();
+        tagService.getTags()
+            .then((tags) => {
+                this.setState({
+                    tags
+                }, () => {
+                    this.loadData();
+                });
+            });
     }
 
     loadData() {
@@ -59,7 +70,11 @@ class BookmarksList extends Component {
 
     addBookmark() {
         this.setState({
-            bookmarkToEdit: Object.assign({}, {})
+            bookmarkToEdit: {
+                title: '',
+                url: '',
+                tags: []
+            }
         });
     }
 
@@ -77,12 +92,47 @@ class BookmarksList extends Component {
         console.log('todo');
     }
 
-    confirmDeleteBookmark(id) {
+    deleteBookmark() {
         this.setState({
-            tagToDeleteId: id
+            bookmarkToDeleteId: null
+        });
+        console.log('todo');
+    }
+
+    cancelDeleteBookmark() {
+        this.setState({
+            bookmarkToDeleteId: null
         });
     }
 
+    confirmDeleteBookmark(id) {
+        this.setState({
+            bookmarkToDeleteId: id
+        });
+    }
+
+    saveBookmark() {
+        console.log('todo');
+
+        this.setState({
+            bookmarkToEdit: null
+        });
+    }
+
+    cancelEditBookmark() {
+        this.setState({
+            bookmarkToEdit: null
+        });
+    }
+
+    updateBookmarkState(field, value) {
+        let bookmark = this.state.bookmarkToEdit;
+
+        bookmark[field] = value;
+
+        return this.setState({bookmarkToEdit: bookmark});
+    }
+    
     restoreBookmarkAction() {
         console.log('todo'); 
     }
@@ -126,6 +176,9 @@ class BookmarksList extends Component {
             {key: 'lastEditDate', text: 'Last edit'},
             {key: 'creationDate', text: 'Created date'}
         ];
+
+        let deleteConfirmVisible = this.state.bookmarkToDeleteId ? true : false;
+        let editBookmarkVisible = this.state.bookmarkToEdit ? true : false;
 
         if (!this.anyBookmarks) return (
             <div id="message">No bookmarks</div>
@@ -217,6 +270,11 @@ class BookmarksList extends Component {
                         })
                     }
                 </div>
+
+                <Confirm visible={deleteConfirmVisible} action={this.deleteBookmark} close={this.cancelDeleteBookmark} />
+                
+                <SaveBookmark visible={editBookmarkVisible} bookmark={this.state.bookmarkToEdit} tags={this.state.tags}
+                              save={this.saveBookmark} close={this.cancelEditBookmark} onChange={this.updateBookmarkState} />
             </div>
         );
     }
