@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../App.css';
-import toastr from 'toastr';
+//import toastr from 'toastr';
 import autoBind from 'react-autobind';
 import Navigation from './Navigation';
 import BookmarksPage from './bookmarks/BookmarksPage';
