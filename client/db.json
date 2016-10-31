@@ -25,5 +25,62 @@
       "title": "news!!",
       "description": ""
     }
+  ],
+  "bookmarks": [
+    {
+      "id": 1,
+      "url": "http://www.bbc.com",
+      "title": "BBC news",
+      "tags": ["news"],
+      "isTagged": true,
+      "originalPath": "bookmarks/news"
+    },
+    {
+      "id": 2,
+      "url": "http://www.abc.net.au/",
+      "title": "ABC news",
+      "tags": ["news", "Australia"],
+      "isTagged": true,
+      "originalPath": "bookmarks/news"
+    },
+    {
+      "id": 3,
+      "url": "http://www.github.com",
+      "title": "Github",
+      "tags": ["programming"],
+      "isTagged": true,
+      "originalPath": "bookmarks/it"
+    },
+    {
+      "id": 4,
+      "url": "http://www.bitbucket.com",
+      "title": "Bitbucket Atlassian",
+      "tags": ["programming"],
+      "isTagged": true,
+      "originalPath": "bookmarks/it"
+    },
+    {
+      "id": 5,
+      "url": "http://www.booking.com",
+      "title": "Hotel booking",
+      "tags": ["travel"],
+      "isTagged": true,
+      "originalPath": "bookmarks/travel"
+    },
+    {
+      "id": 6,
+      "url": "http://www.australia.com/en/itineraries/drive-australia.html",
+      "title": "Drive Australia",
+      "tags": ["travel", "Australia"],
+      "isTagged": true,
+      "originalPath": "bookmarks"
+    },
+    {
+      "id": 7,
+      "url": "https://www.ru.wikipedia.org/",
+      "title": "Wikipedia",
+      "isTagged": false,
+      "originalPath": "bookmarks/others"
+    }
   ]
 }

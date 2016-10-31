@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import autoBind from 'react-autobind';
 import BookmarksSearchFilter from './BookmarksSearchFilter';
 import BookmarksList from './BookmarksList';
+import './BookmarksPage.css';
 
 class BookmarksPage extends Component {
     constructor(props) {
