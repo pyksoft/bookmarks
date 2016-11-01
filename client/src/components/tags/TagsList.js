@@ -61,11 +61,16 @@ class TagsList extends Component {
     }
 
     saveTag() {
-        console.log('todo');
+        apiService.saveTag(this.state.tagToEdit)
+            .then(() => {
+                toastr.success('Tag was saved');
 
-        this.setState({
-            tagToEdit: null
-        });
+                this.loadData();
+
+                this.setState({
+                    tagToEdit: null
+                });
+            });
     }
 
     deleteTag() {

@@ -22,7 +22,7 @@ class TagItem extends Component {
                             </a>
                         </span>
 
-                        <span>
+                        <span style={{marginLeft: 8}}>
                             <a title="Delete tag" onClick={deleteClick}>
                                 <i className="fa fa-trash-o fa-lg"></i>
                             </a>

@@ -123,9 +123,27 @@ function deleteTag(id) {
 }
 
 function saveTag(tag) {
-    notImplemented();
+    if (tag.id) {
+        return updateTag(tag);
+    } else {
+        return addTag(tag);
+    }
 }
 
-function notImplemented() {
-    throw new Error('This operation is not supported!');
+function addTag(tag) {
+    helper.addToList(jsonData.tags, tag);
+
+    return Promise.resolve(null);
+}
+
+function updateTag(tag) {
+    let tags = jsonData.tags;
+
+    for (let i = 0; i < tags.length; i++) {
+        if (tags[i].id === tag.id) {
+            tags[i] = tag;
+        }
+    }
+
+    return Promise.resolve(null);
 }
