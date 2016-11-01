@@ -51,6 +51,15 @@ class BookmarksPage extends Component {
                 })
             });
     }
+    
+    loadTags() {
+        apiService.getTags()
+            .then((tags) => {
+                this.setState({
+                    tags
+                });
+            });
+    }
 
     onPageChange(page) {
         let searchQuery = update(this.state.searchQuery, {
@@ -107,6 +116,7 @@ class BookmarksPage extends Component {
                                    onSortByChange={this.onSortByChange}
                                    onSortDirectionChange={this.onSortDirectionChange}
                                    onLoadData={this.loadData}
+                                   onLoadTags={this.loadTags}
                     />
                 </div>
             </div>

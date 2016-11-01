@@ -4,26 +4,31 @@ import TextInput from '../common/TextInput';
 import TextAreaInput from '../common/TextAreaInput';
 import TagSelector from '../common/TagSelector';
 import autoBind from 'react-autobind';
+import SaveTag from '../tags/SaveTag';
+import apiService from '../../services/apiService';
+import toastr from 'toastr';
 
 class SaveBookmark extends Component {
     constructor(props) {
         super(props);
 
-        let tagsOptions = this.props.tags.map(tag => ({
-            value: tag.id,
-            label: tag.title
-        }));
-
         this.state = {
-            tagsOptions,
+            tagsOptions: [],
+            tagToEdit: null,
             errors: {}
         };
 
         autoBind(this);
     }
 
-    componentWillReceiveProps() {
+    componentWillReceiveProps(nextProps) {
+        let tagsOptions = nextProps.tags.map(tag => ({
+            value: tag.id,
+            label: tag.title
+        }));
+
         this.setState({
+            tagsOptions,
             errors: {}
         });
     }
@@ -61,7 +66,38 @@ class SaveBookmark extends Component {
     }
 
     showTagModal() {
-        console.log('todo');
+        this.setState({
+            tagToEdit: Object.assign({}, {})
+        });
+    }
+
+    cancelEditTag() {
+        this.setState({
+            tagToEdit: null
+        });
+    }
+
+    updateTagState(field, value) {
+        let tag = this.state.tagToEdit;
+
+        tag[field] = value;
+
+        return this.setState({tagToEdit: tag});
+    }
+
+    saveTag() {
+        apiService.saveTag(this.state.tagToEdit)
+            .then(() => {
+                toastr.success('Tag was saved');
+
+                if (this.props.onLoad) {
+                    this.props.onLoad();
+                }
+
+                this.setState({
+                    tagToEdit: null
+                });
+            });
     }
 
     render() {
@@ -77,6 +113,8 @@ class SaveBookmark extends Component {
         let selectedTags = this.state.tagsOptions.filter(to => {
             return tagIds.indexOf(to.value) !== -1;
         });
+
+        let editTagVisible = this.state.tagToEdit ? true : false;
 
         return (
             <div>
@@ -120,6 +158,9 @@ class SaveBookmark extends Component {
                         <Button onClick={this.props.close}>Cancel</Button>
                     </Modal.Footer>
                 </Modal>
+
+                <SaveTag visible={editTagVisible} tag={this.state.tagToEdit} save={this.saveTag}
+                         close={this.cancelEditTag} onChange={this.updateTagState} />
             </div>
         );
     }
@@ -131,6 +172,7 @@ SaveBookmark.propTypes = {
     bookmark: React.PropTypes.object,
     tags: React.PropTypes.array,
     onChange: React.PropTypes.func.isRequired,
+    onLoad: React.PropTypes.func.isRequired,
     visible: React.PropTypes.bool
 };
 

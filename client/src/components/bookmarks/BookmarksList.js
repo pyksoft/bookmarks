@@ -30,6 +30,12 @@ class BookmarksList extends Component {
         }
     }
 
+    loadTags() {
+        if (this.props.onLoadTags){
+            this.props.onLoadTags();
+        }
+    }
+
     pageSelection(eventKey) {
         if (this.props.onPageChange) {
             this.props.onPageChange(eventKey);
@@ -83,11 +89,6 @@ class BookmarksList extends Component {
                     bookmarkToDeleteId: null
                 });
             });
-
-        this.setState({
-            bookmarkToDeleteId: null
-        });
-        console.log('todo');
     }
 
     cancelDeleteBookmark() {
@@ -286,7 +287,7 @@ class BookmarksList extends Component {
 
                 <SaveBookmark visible={editBookmarkVisible} bookmark={this.state.bookmarkToEdit} tags={this.props.tags}
                               save={this.saveBookmark} close={this.cancelEditBookmark}
-                              onChange={this.updateBookmarkState}/>
+                              onChange={this.updateBookmarkState} onLoad={this.loadTags} />
             </div>
         );
     }

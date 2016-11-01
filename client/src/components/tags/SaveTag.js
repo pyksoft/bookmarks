@@ -53,7 +53,7 @@ class SaveTag extends Component {
                     <Modal.Header closeButton onClick={this.props.close}>
                         <Modal.Title>{title}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body style={{minHeight: 275}}>
                         <TextInput
                             name="title"
                             label="Title"
