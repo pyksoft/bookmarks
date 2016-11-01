@@ -55,10 +55,6 @@ class BookmarkItem extends Component {
             shortenedUrl = shortenedUrl.substring(0, MAX_URL_DISPLAY_LENGTH) + '...';
         }
 
-        let openUrl = () => {
-            console.log('todo');
-        };
-
         let editClick = () => {
             this.props.editBookmarkAction(this.props.bookmark);
         };
@@ -84,7 +80,7 @@ class BookmarkItem extends Component {
                 </div>
 
                 <div className="bookmark-cell url">
-                    <a onClick={openUrl} target="_blank" data-toggle="tooltip" title={this.props.bookmark.url}>
+                    <a href={this.props.bookmark.url} target="_blank" data-toggle="tooltip" title={this.props.bookmark.url}>
                         {shortenedUrl}
                     </a>
                 </div>
