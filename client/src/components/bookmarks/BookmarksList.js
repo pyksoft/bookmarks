@@ -40,7 +40,7 @@ class BookmarksList extends Component {
     }
 
     loadData() {
-        apiService.getBookmarks(this.state.activePage, this.state.sortBy, this.state.searchStr)
+        apiService.getBookmarks(this.state.activePage, this.state.sortBy, true, this.state.searchStr)
             .then((data) => {
                 this.setState({
                     bookmarks: data.dataItems,
@@ -111,11 +111,12 @@ class BookmarksList extends Component {
     }
 
     saveBookmark() {
-        console.log('todo');
-
-        this.setState({
-            bookmarkToEdit: null
-        });
+        apiService.saveBookmark(this.state.bookmarkToEdit)
+            .then(() => {
+                this.setState({
+                    bookmarkToEdit: null
+                });
+            });
     }
 
     cancelEditBookmark() {
@@ -127,13 +128,18 @@ class BookmarksList extends Component {
     updateBookmarkState(field, value) {
         let bookmark = this.state.bookmarkToEdit;
 
+        if (field === 'tags') {
+            let tags = this.state.tags.filter(t => value.indexOf(t.id) !== -1);
+            value = tags;
+        }
+
         bookmark[field] = value;
 
         return this.setState({bookmarkToEdit: bookmark});
     }
-    
+
     restoreBookmarkAction() {
-        console.log('todo'); 
+        console.log('todo');
     }
 
     selectAllBookmarks() {
@@ -153,7 +159,7 @@ class BookmarksList extends Component {
             });
         }
     }
-    
+
     get anyBookmarks() {
         let bookmarks = this.state.bookmarks;
         return bookmarks && bookmarks.length;
@@ -182,7 +188,7 @@ class BookmarksList extends Component {
         if (!this.anyBookmarks) return (
             <div id="message">No bookmarks</div>
         );
-        
+
         return (
             <div>
                 <div className="bookmark-list-header">
@@ -214,7 +220,7 @@ class BookmarksList extends Component {
                             disabled={this.noSelection}
                         />
                     </div>
-                    
+
                     <div>
                         <Pagination
                             bsSize="medium"
@@ -246,7 +252,8 @@ class BookmarksList extends Component {
                 <div className="bookmark-list-body-header">
                     <div className="bookmark-row">
                         <div className="bookmark-cell checkbox">
-                            <input type="checkbox" onClick={() => this.selectAllBookmarks} value={this.state.allSelected} />
+                            <input type="checkbox" onClick={() => this.selectAllBookmarks}
+                                   value={this.state.allSelected}/>
                         </div>
                         <div className="bookmark-cell title">Title</div>
                         <div className="bookmark-cell url">Url</div>
@@ -270,10 +277,11 @@ class BookmarksList extends Component {
                     }
                 </div>
 
-                <Confirm visible={deleteConfirmVisible} action={this.deleteBookmark} close={this.cancelDeleteBookmark} />
-                
+                <Confirm visible={deleteConfirmVisible} action={this.deleteBookmark} close={this.cancelDeleteBookmark}/>
+
                 <SaveBookmark visible={editBookmarkVisible} bookmark={this.state.bookmarkToEdit} tags={this.state.tags}
-                              save={this.saveBookmark} close={this.cancelEditBookmark} onChange={this.updateBookmarkState} />
+                              save={this.saveBookmark} close={this.cancelEditBookmark}
+                              onChange={this.updateBookmarkState}/>
             </div>
         );
     }

@@ -2,7 +2,8 @@ export default {
     searchList,
     sortList,
     getPage,
-    deleteFromList
+    deleteFromList,
+    addToList,
 }
 
 function searchList(list, searchStr, fields) {
@@ -28,11 +29,15 @@ function sortList(list, sortBy, isAsc, fields) {
 }
 
 function getSortFunction(field, type, isAsc) {
-    switch (type){
+    let dirNum = isAsc ? 1: -1;
+
+    switch (type) {
         case 'string':
-            return (x, y) => x[field].localeCompare(y[field]);
+            return (x, y) => x[field].localeCompare(y[field]) * dirNum;
         case 'number':
-            return (x, y) => x[field] - y[field];
+            return (x, y) => (x[field] - y[field]) * dirNum;
+        case 'date':
+            return (x, y) => (Date.parse(x[field]) - Date.parse(y[field])) * dirNum;
         default:
             return (x, y) => 0;
     }
@@ -54,4 +59,19 @@ function deleteFromList(list, predicate) {
             list.splice(i, 1);
         }
     }
+}
+
+function addToList(list, entity, idField = 'id') {
+    let maxId = 0;
+
+    for (let i = 0; i < list.length; i++) {
+        let id = list[i][idField];
+        if (id > maxId) {
+            maxId = id;
+        }
+    }
+
+    entity[idField] = maxId + 1;
+
+    list.push(entity);
 }

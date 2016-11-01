@@ -3,6 +3,7 @@ import helper from '../helpers/stubsHelper';
 
 export default {
     getBookmarks,
+    saveBookmark,
     getTags,
     deleteTag,
     saveTag
@@ -11,6 +12,7 @@ export default {
 const pageSize = 10;
 
 function getBookmarks(page, sortBy, isAsc, searchStr) {
+
     let bookmarks = helper.searchList(jsonData.bookmarks, searchStr, ['title', 'url']);
 
     bookmarks = helper.sortList(bookmarks, sortBy, isAsc, [
@@ -27,6 +29,25 @@ function getBookmarks(page, sortBy, isAsc, searchStr) {
         total: bookmarks.length,
         dataItems: result
     });
+}
+
+function saveBookmark(bookmark) {
+    if (bookmark.id) {
+        console.log('todo');
+        return Promise.resolve(null);
+    } else {
+        return addBookmark(bookmark);
+    }
+}
+
+function addBookmark(bookmark) {
+    let tagIds = bookmark.tags.map(t => t.id);
+
+    let newBookmark = Object.assign({}, bookmark, {tags: tagIds});
+
+    helper.addToList(jsonData.bookmarks, newBookmark);
+
+    return Promise.resolve(null);
 }
 
 function generateBookmarks(bookmarks) {

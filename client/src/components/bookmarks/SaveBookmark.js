@@ -10,7 +10,7 @@ class SaveBookmark extends Component {
         super(props);
 
         let tagsOptions = this.props.tags.map(tag => ({
-            value: tag.title,
+            value: tag.id,
             label: tag.title
         }));
 
@@ -65,13 +65,17 @@ class SaveBookmark extends Component {
     }
 
     render() {
-        if (!this.props.bookmark) return null;
+        let bookmark = this.props.bookmark;
 
-        let title = this.props.bookmark.id ? 'Edit bookmark' : 'Add bookmark';
-        let btnText = this.props.bookmark.id ? 'Update' : 'Add';
+        if (!bookmark) return null;
+
+        let title = bookmark.id ? 'Edit bookmark' : 'Add bookmark';
+        let btnText = bookmark.id ? 'Update' : 'Add';
+
+        let tagIds = bookmark.tags.map(t => t.id);
 
         let selectedTags = this.state.tagsOptions.filter(to => {
-            return this.props.bookmark.tags.indexOf(to.value) !== -1;
+            return tagIds.indexOf(to.value) !== -1;
         });
 
         return (
