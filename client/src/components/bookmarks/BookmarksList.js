@@ -7,6 +7,7 @@ import ListAction from '../common/ListAction';
 import Confirm from '../common/Confirm';
 import BookmarkItem from './BookmarkItem';
 import SaveBookmark from './SaveBookmark';
+import AddTag from './AddTag';
 import apiService from '../../services/apiService';
 import toastr from 'toastr';
 
@@ -19,7 +20,9 @@ class BookmarksList extends Component {
             bookmarkToDeleteId: null,
             selectedBookmarks: [],
             allSelected: false,
-            showConfirm: false
+            showConfirm: false,
+            showAddTagModal: false,
+            selectedTags: []
         };
 
         autoBind(this);
@@ -87,6 +90,22 @@ class BookmarksList extends Component {
 
     addTagForBookmarks() {
         console.log('todo');
+
+        this.setState({
+            showAddTagModal: false
+        });
+    }
+
+    displayAddTagModal() {
+        this.setState({
+            showAddTagModal: true
+        });
+    }
+
+    cancelAddTag() {
+        this.setState({
+            showAddTagModal: false
+        });
     }
 
     deleteBookmarks() {
@@ -266,7 +285,7 @@ class BookmarksList extends Component {
                         />
 
                         <ListAction
-                            action={this.addTagForBookmarks}
+                            action={this.displayAddTagModal}
                             tooltip="Add tag for multiple bookmarks."
                             icon="fa-tag"
                             disabled={this.noSelection}
@@ -347,6 +366,9 @@ class BookmarksList extends Component {
                 <SaveBookmark visible={editBookmarkVisible} bookmark={this.state.bookmarkToEdit} tags={this.props.tags}
                               save={this.saveBookmark} close={this.cancelEditBookmark}
                               onChange={this.updateBookmarkState} onLoad={this.loadTags} />
+
+                <AddTag visible={this.state.showAddTagModal} tags={this.props.tags}
+                        save={this.addTagForBookmarks} close={this.cancelAddTag} />
             </div>
         );
     }
