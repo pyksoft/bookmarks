@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Pagination, ButtonToolbar, DropdownButton, MenuItem} from 'react-bootstrap';
 import autoBind from 'react-autobind';
+import classnames from 'classnames';
 import './BookmarksList.css';
 import ListAction from '../common/ListAction';
 import Confirm from '../common/Confirm';
@@ -37,6 +38,12 @@ class BookmarksList extends Component {
     sortBy(key) {
         if (this.props.onSortByChange) {
             this.props.onSortByChange(key);
+        }
+    }
+    
+    sortDirection(key) {
+        if (this.props.onSortDirectionChange) {
+            this.props.onSortDirectionChange();
         }
     }
 
@@ -158,6 +165,12 @@ class BookmarksList extends Component {
         let deleteConfirmVisible = this.state.bookmarkToDeleteId ? true : false;
         let editBookmarkVisible = this.state.bookmarkToEdit ? true : false;
 
+        let iconClass = classnames({
+            'fa': true,
+            'fa-arrow-down': this.props.searchQuery.sortAsc,
+            'fa-arrow-up': !this.props.searchQuery.sortAsc
+        });
+
         if (!this.anyBookmarks) return (
             <div id="message">No bookmarks</div>
         );
@@ -219,6 +232,9 @@ class BookmarksList extends Component {
                                 })}
                             </DropdownButton>
                         </ButtonToolbar>
+
+                        <i className={iconClass} style={{marginLeft: 8}} onClick={() => this.sortDirection()} 
+                           aria-hidden="true"></i>
                     </div>
                 </div>
 

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import update from 'react-addons-update';
 import autoBind from 'react-autobind';
 import BookmarksSearchFilter from './BookmarksSearchFilter';
 import BookmarksList from './BookmarksList';
@@ -52,10 +53,12 @@ class BookmarksPage extends Component {
     }
 
     onPageChange(page) {
+        let searchQuery = update(this.state.searchQuery, {
+            activePage: {$set: page}
+        });
+        
         this.setState({
-            searchQuery: {
-                activePage: page
-            }
+            searchQuery
         }, () => {
             //after setSate is completed
             this.loadData();
@@ -63,11 +66,26 @@ class BookmarksPage extends Component {
     }
 
     onSortByChange(key) {
+        let searchQuery = update(this.state.searchQuery, {
+            sortBy: {$set: key},
+            activePage: {$set: 1}
+        });
+
         this.setState({
-            searchQuery: {
-                sortBy: key,
-                activePage: 1
-            }
+            searchQuery
+        }, () => {
+            this.loadData();
+        });
+    }
+
+    onSortDirectionChange() {
+        let searchQuery = update(this.state.searchQuery, {
+            sortAsc: {$set: !this.state.searchQuery.sortAsc},
+            activePage: {$set: 1}
+        });
+
+        this.setState({
+            searchQuery
         }, () => {
             this.loadData();
         });
@@ -87,6 +105,7 @@ class BookmarksPage extends Component {
                                    searchQuery={this.state.searchQuery}
                                    onPageChange={this.onPageChange}
                                    onSortByChange={this.onSortByChange}
+                                   onSortDirectionChange={this.onSortDirectionChange}
                     />
                 </div>
             </div>

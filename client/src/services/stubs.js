@@ -18,7 +18,7 @@ function getBookmarks(searchQuery) {
     bookmarks = helper.sortList(bookmarks, searchQuery.sortBy, searchQuery.sortAsc, [
         {name: 'title', type: 'string'},
         {name: 'creationDate', type: 'date'},
-        {name: 'lastEditDate', type: 'date'},
+        {name: 'lastEditDate', type: 'date'}
     ]);
 
     let result = helper.getPage(bookmarks, searchQuery.activePage, pageSize);
