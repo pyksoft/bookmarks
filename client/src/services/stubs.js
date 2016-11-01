@@ -5,6 +5,7 @@ export default {
     getBookmarks,
     saveBookmark,
     deleteBookmark,
+    deleteMultipleBookmarks,
     getTags,
     deleteTag,
     saveTag
@@ -75,6 +76,14 @@ function deleteBookmark(id) {
         }
     }
 
+    return Promise.resolve(null);
+}
+
+function deleteMultipleBookmarks(ids) {
+    for (let i = 0; i < ids.length; i++) {
+        deleteBookmark(ids[i]);
+    }
+    
     return Promise.resolve(null);
 }
 

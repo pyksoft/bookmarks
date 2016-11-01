@@ -18,7 +18,8 @@ class BookmarksList extends Component {
             bookmarkToEdit: null,
             bookmarkToDeleteId: null,
             selectedBookmarks: [],
-            allSelected: false
+            allSelected: false,
+            showConfirm: false
         };
 
         autoBind(this);
@@ -89,7 +90,30 @@ class BookmarksList extends Component {
     }
 
     deleteBookmarks() {
-        console.log('todo');
+        apiService.deleteMultipleBookmarks(this.state.selectedBookmarks)
+            .then(() => {
+                toastr.success('Bookmarks were deleted');
+
+                this.loadData();
+
+                this.setState({
+                    showConfirm: false,
+                    selectedBookmarks: [],
+                    allSelected: false
+                });
+            });
+    }
+
+    confirmDeleteBookmarks() {
+        this.setState({
+            showConfirm: true
+        });
+    }
+
+    cancelDeleteBookmarks() {
+        this.setState({
+            showConfirm: false
+        });
     }
 
     deleteBookmark() {
@@ -249,7 +273,7 @@ class BookmarksList extends Component {
                         />
 
                         <ListAction
-                            action={this.deleteBookmarks}
+                            action={this.confirmDeleteBookmarks}
                             tooltip="Delete multiple bookmarks."
                             icon="fa-trash-o"
                             disabled={this.noSelection}
@@ -291,7 +315,7 @@ class BookmarksList extends Component {
                     <div className="bookmark-row">
                         <div className="bookmark-cell checkbox">
                             <input type="checkbox" onChange={this.selectAllBookmarks}
-                                   value={this.state.allSelected}/>
+                                   checked={this.state.allSelected}/>
                         </div>
                         <div className="bookmark-cell title">Title</div>
                         <div className="bookmark-cell url">Url</div>
@@ -315,6 +339,8 @@ class BookmarksList extends Component {
                         })
                     }
                 </div>
+
+                <Confirm visible={this.state.showConfirm} action={this.deleteBookmarks} close={this.cancelDeleteBookmarks}/>
 
                 <Confirm visible={deleteConfirmVisible} action={this.deleteBookmark} close={this.cancelDeleteBookmark}/>
 
