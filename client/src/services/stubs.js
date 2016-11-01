@@ -1,6 +1,5 @@
 import jsonData from '../../db.json';
 import helper from '../helpers/stubsHelper';
-import toastr from 'toastr';
 
 export default {
     getBookmarks,
@@ -22,10 +21,29 @@ function getBookmarks(page, sortBy, isAsc, searchStr) {
 
     bookmarks = helper.getPage(bookmarks, page, pageSize);
 
+    addTags(bookmarks);
+
     return Promise.resolve({
         total: bookmarks.length,
         dataItems: bookmarks
     });
+}
+
+function addTags(bookmarks) {
+    let tagLookup = {};
+    for (let tag of jsonData.tags) {
+        tagLookup[tag.id] = tag;
+    }
+
+    for (let bookmark of bookmarks) {
+        let tags = [];
+
+        for (let tagId of bookmark.tags) {
+            tags.push(tagLookup[tagId]);
+        }
+
+        bookmark.tags = tags;
+    }
 }
 
 function getTags() {
@@ -41,5 +59,5 @@ function saveTag(tag) {
 }
 
 function notImplemented() {
-    toastr.warning('This operation is not supported!');
+    throw new Error('This operation is not supported!');
 }

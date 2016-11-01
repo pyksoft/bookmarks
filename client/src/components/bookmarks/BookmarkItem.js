@@ -9,7 +9,7 @@ class BookmarkItem extends Component {
 
         if(this.props.bookmark.tags && this.props.bookmark.tags.length) {
             for (let tag of this.props.bookmark.tags) {
-                displayTags += `- ${tag} \n`;
+                displayTags += `- ${tag.title} \n`;
             }
         }
 
