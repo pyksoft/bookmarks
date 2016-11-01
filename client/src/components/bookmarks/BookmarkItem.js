@@ -4,36 +4,49 @@ import './BookmarkItem.css';
 const MAX_URL_DISPLAY_LENGTH = 50;
 
 class BookmarkItem extends Component {
-    render() {
-        let displayTags = '';
+    static getTagsTooltip(tags) {
+        let result = '';
 
-        if(this.props.bookmark.tags && this.props.bookmark.tags.length) {
-            for (let tag of this.props.bookmark.tags) {
-                displayTags += `- ${tag.title} \n`;
+        if(tags && tags.length) {
+            for (let tag of tags) {
+                result += `- ${tag.title} \n`;
             }
         }
 
-        let displayBookmarkInfo = '';
+        return result;
+    }
+
+    getBookmarkTooltip(bookmark, tags){
+        let result = '';
 
         //let date = moment(this.bookmark.creationDate).format('D MMM YYYY');
 
-        displayBookmarkInfo += `Created: ${this.props.bookmark.creationDate} \n`;
+        result += `Created: ${bookmark.creationDate} \n`;
 
-        if (this.props.bookmark.originalPath) {
-            displayBookmarkInfo += `Original path: ${this.props.bookmark.originalPath}`;
+        if (bookmark.originalPath) {
+            result += `Original path: ${bookmark.originalPath}`;
         }
 
-        let displayTitle = '';
+        result += '\n';
 
-        displayTitle += `${displayBookmarkInfo} \n`;
+        if (tags && tags.length) {
+            result += `Tags: \n`;
 
-        if (displayTags) {
-            displayTitle += `Tags: \n`;
-
-            for (let tag of this.props.bookmark.tags) {
-                displayTitle += `      - ${tag.title} \n`;
+            for (let tag of tags) {
+                result += `      - ${tag.title} \n`;
             }
         }
+
+        return result;
+    }
+
+    render() {
+
+        let tags = this.props.bookmark.tags;
+
+        let tagsTooltip = BookmarkItem.getTagsTooltip(tags);
+
+        let bookmarkTooltip = this.getBookmarkTooltip(this.props.bookmark, tags);
 
         let shortenedUrl = this.props.bookmark.url;
 
@@ -64,7 +77,7 @@ class BookmarkItem extends Component {
                 </div>
 
                 <div className="bookmark-cell title">
-                    <label htmlFor={this.props.bookmark.id} data-toggle="tooltip" title={displayTitle}>
+                    <label htmlFor={this.props.bookmark.id} data-toggle="tooltip" title={bookmarkTooltip}>
                         {this.props.bookmark.title}
                     </label>
                 </div>
@@ -77,7 +90,7 @@ class BookmarkItem extends Component {
 
                 <div className="bookmark-cell tags">
                     {this.props.bookmark.isTagged ? (
-                        <span data-toggle="tooltip" title={displayTags}>
+                        <span data-toggle="tooltip" title={tagsTooltip}>
                             <i className="fa fa-search fa-flip-horizontal fa-lg"></i>
                         </span>
                     ) : <span data-toggle="tooltip" title="No tags for this bookmark.">
@@ -102,7 +115,7 @@ class BookmarkItem extends Component {
                                 </a>
                             }
 
-                            <span data-toggle="tooltip" title={displayBookmarkInfo}>
+                            <span data-toggle="tooltip" title={bookmarkTooltip}>
                                 <i className="fa fa-exclamation-circle fa-lg"></i>
                             </span>
                         </span>

@@ -19,17 +19,19 @@ function getBookmarks(page, sortBy, isAsc, searchStr) {
         {name: 'lastEditDate', type: 'date'},
     ]);
 
-    bookmarks = helper.getPage(bookmarks, page, pageSize);
+    let result = helper.getPage(bookmarks, page, pageSize);
 
-    addTags(bookmarks);
+    result = generateBookmarks(result);
 
     return Promise.resolve({
         total: bookmarks.length,
-        dataItems: bookmarks
+        dataItems: result
     });
 }
 
-function addTags(bookmarks) {
+function generateBookmarks(bookmarks) {
+    let result = [];
+
     let tagLookup = {};
     for (let tag of jsonData.tags) {
         tagLookup[tag.id] = tag;
@@ -42,12 +44,20 @@ function addTags(bookmarks) {
             tags.push(tagLookup[tagId]);
         }
 
-        bookmark.tags = tags;
+        result.push(Object.assign({}, bookmark, {tags}));
     }
+
+    return result;
 }
 
 function getTags() {
-    return Promise.resolve(jsonData.tags);
+    let result = [];
+
+    for (let tag of jsonData.tags) {
+        result.push(Object.assign({}, tag));
+    }
+
+    return Promise.resolve(result);
 }
 
 function deleteTag(id) {
