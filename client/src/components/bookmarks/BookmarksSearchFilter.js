@@ -10,10 +10,6 @@ class BookmarksSearchFilter extends Component {
         super(props);
 
         this.state = {
-            foundBookmarksCount: 0,
-            totalBookmarksCount: 0,
-            taggedBookmarksCount: 0,
-            deletedBookmarksCount: 0,
             searchStr: '',
             searchMode: {
                 noTags: {
@@ -98,19 +94,6 @@ class BookmarksSearchFilter extends Component {
 
         return (
             <div>
-                <div className="col-xs-12 title-row">
-                    <h3>Statistics</h3>
-                </div>
-                <div className="col-xs-12 statistic-row">
-                    All bookmarks: <strong>{this.state.totalBookmarksCount}</strong>
-                </div>
-                <div className="col-xs-12 statistic-row">
-                    Tagged bookmarks: <strong>{this.state.taggedBookmarksCount}</strong>
-                </div>
-                <div className="col-xs-12 statistic-row">
-                    Deleted bookmarks: <strong>{this.state.deletedBookmarksCount}</strong>
-                </div>
-
                 <div className="col-xs-12 title-row">
                     <h3>Search</h3>
                 </div>

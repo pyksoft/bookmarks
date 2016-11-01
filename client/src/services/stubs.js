@@ -9,19 +9,19 @@ export default {
     saveTag
 }
 
-const pageSize = 10;
+const pageSize = 15;
 
-function getBookmarks(page, sortBy, isAsc, searchStr) {
+function getBookmarks(searchQuery) {
 
-    let bookmarks = helper.searchList(jsonData.bookmarks, searchStr, ['title', 'url']);
+    let bookmarks = helper.searchList(jsonData.bookmarks, searchQuery.searchStr, ['title', 'url']);
 
-    bookmarks = helper.sortList(bookmarks, sortBy, isAsc, [
+    bookmarks = helper.sortList(bookmarks, searchQuery.sortBy, searchQuery.sortAsc, [
         {name: 'title', type: 'string'},
         {name: 'creationDate', type: 'date'},
         {name: 'lastEditDate', type: 'date'},
     ]);
 
-    let result = helper.getPage(bookmarks, page, pageSize);
+    let result = helper.getPage(bookmarks, searchQuery.activePage, pageSize);
 
     result = generateBookmarks(result);
 

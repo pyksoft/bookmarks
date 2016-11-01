@@ -13,58 +13,31 @@ class BookmarksList extends Component {
         super(props);
 
         this.state = {
-            bookmarks: [],
-            tags: [],
-            total: 0,
             bookmarkToEdit: null,
             bookmarkToDeleteId: null,
             selectedBookmarks: [],
-            allSelected: false,
-            activePage: 1,
-            sortBy: 'title',
-            searchStr: ''
+            allSelected: false
         };
 
         autoBind(this);
     }
 
-    componentDidMount() {
-        apiService.getTags()
-            .then((tags) => {
-                this.setState({
-                    tags
-                }, () => {
-                    this.loadData();
-                });
-            });
-    }
-
     loadData() {
-        apiService.getBookmarks(this.state.activePage, this.state.sortBy, true, this.state.searchStr)
-            .then((data) => {
-                this.setState({
-                    bookmarks: data.dataItems,
-                    total: data.total
-                })
-            });
+        if (this.props.onLoadData){
+            this.props.onLoadData();
+        }
     }
 
     pageSelection(eventKey) {
-        this.setState({
-            activePage: eventKey
-        }, () => {
-            //after setSate is completed
-            this.loadData();
-        });
+        if (this.props.onPageChange) {
+            this.props.onPageChange(eventKey);
+        }
     }
 
     sortBy(key) {
-        this.setState({
-            sortBy: key,
-            activePage: 1
-        }, () => {
-            this.loadData();
-        });
+        if (this.props.onSortByChange) {
+            this.props.onSortByChange(key);
+        }
     }
 
     addBookmark() {
@@ -129,7 +102,7 @@ class BookmarksList extends Component {
         let bookmark = this.state.bookmarkToEdit;
 
         if (field === 'tags') {
-            let tags = this.state.tags.filter(t => value.indexOf(t.id) !== -1);
+            let tags = this.props.tags.filter(t => value.indexOf(t.id) !== -1);
             value = tags;
         }
 
@@ -150,7 +123,7 @@ class BookmarksList extends Component {
         if (!this.state.allSelected) {
             let selectedBookmarks = [];
 
-            for (let bookmark of this.state.bookmarks) {
+            for (let bookmark of this.props.bookmarks) {
                 selectedBookmarks.push(bookmark.id.toString());
             }
 
@@ -161,7 +134,7 @@ class BookmarksList extends Component {
     }
 
     get anyBookmarks() {
-        let bookmarks = this.state.bookmarks;
+        let bookmarks = this.props.bookmarks;
         return bookmarks && bookmarks.length;
     }
 
@@ -174,7 +147,7 @@ class BookmarksList extends Component {
     }
 
     render() {
-        let pageNumber = Math.ceil(this.state.total / 15);
+        let pageNumber = Math.ceil(this.props.total / 15);
 
         let sortByOptions = [
             {key: 'title', text: 'Title'},
@@ -230,7 +203,7 @@ class BookmarksList extends Component {
                             boundaryLinks
                             maxButtons={8}
                             items={pageNumber}
-                            activePage={this.state.activePage}
+                            activePage={this.props.searchQuery.activePage}
                             onSelect={this.pageSelection}
                         />
                     </div>
@@ -241,7 +214,7 @@ class BookmarksList extends Component {
                                 {sortByOptions.map(item => {
                                     return (
                                         <MenuItem key={item.key} onClick={() => this.sortBy(item.key)}
-                                                  active={this.state.sortBy === item.key}>{item.text}</MenuItem>
+                                                  active={this.props.searchQuery.sortBy === item.key}>{item.text}</MenuItem>
                                     )
                                 })}
                             </DropdownButton>
@@ -265,7 +238,7 @@ class BookmarksList extends Component {
 
                 <div className="bookmark-list-body">
                     {
-                        this.state.bookmarks.map(bookmark => {
+                        this.props.bookmarks.map(bookmark => {
                             return <BookmarkItem key={bookmark.id}
                                                  bookmark={bookmark}
                                                  selectedBookmarks={this.state.selectedBookmarks}
@@ -279,7 +252,7 @@ class BookmarksList extends Component {
 
                 <Confirm visible={deleteConfirmVisible} action={this.deleteBookmark} close={this.cancelDeleteBookmark}/>
 
-                <SaveBookmark visible={editBookmarkVisible} bookmark={this.state.bookmarkToEdit} tags={this.state.tags}
+                <SaveBookmark visible={editBookmarkVisible} bookmark={this.state.bookmarkToEdit} tags={this.props.tags}
                               save={this.saveBookmark} close={this.cancelEditBookmark}
                               onChange={this.updateBookmarkState}/>
             </div>
