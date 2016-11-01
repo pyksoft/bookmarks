@@ -5,6 +5,7 @@ import BookmarksList from './BookmarksList';
 import BookmarkStatistics from './BookmarkStatistics';
 import './BookmarksPage.css';
 import apiService from '../../services/apiService';
+import settings from '../../services/settingsService';
 
 class BookmarksPage extends Component {
     constructor(props) {
@@ -41,16 +42,32 @@ class BookmarksPage extends Component {
             });
     }
 
-    loadData() {
-        apiService.getBookmarks(this.state.searchQuery)
-            .then((data) => {
-                this.setState({
-                    bookmarks: data.dataItems,
-                    total: data.total
+    async loadData() {
+        let data = await apiService.getBookmarks(this.state.searchQuery);
+
+        let page = this.state.searchQuery.activePage;
+        let pageNumber = Math.ceil(this.props.total / settings.PAGE_SIZE);
+
+        //when delete the last element on the last page
+        if (page > pageNumber) {
+            page = pageNumber;
+
+            return this.setState({
+                searchQuery: Object.assign({}, this.state.searchQuery, {
+                    activePage: page
                 })
+            }, () => {
+                //load data again with updated page
+                this.loadData();
             });
+        }
+
+        this.setState({
+            bookmarks: data.dataItems,
+            total: data.total
+        });
     }
-    
+
     loadTags() {
         apiService.getTags()
             .then((tags) => {

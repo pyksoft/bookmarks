@@ -1,5 +1,6 @@
 import jsonData from '../../db.json';
 import helper from '../helpers/stubsHelper';
+import settings from '../services/settingsService';
 
 export default {
     getBookmarks,
@@ -11,8 +12,6 @@ export default {
     saveTag
 }
 
-const pageSize = 15;
-
 function getBookmarks(searchQuery) {
 
     let bookmarks = helper.searchList(jsonData.bookmarks, searchQuery.searchStr, ['title', 'url']);
@@ -23,7 +22,7 @@ function getBookmarks(searchQuery) {
         {name: 'lastEditDate', type: 'date'}
     ]);
 
-    let result = helper.getPage(bookmarks, searchQuery.activePage, pageSize);
+    let result = helper.getPage(bookmarks, searchQuery.activePage, settings.PAGE_SIZE);
 
     result = generateBookmarks(result);
 

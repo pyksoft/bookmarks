@@ -10,6 +10,7 @@ import SaveBookmark from './SaveBookmark';
 import AddTag from './AddTag';
 import apiService from '../../services/apiService';
 import toastr from 'toastr';
+import settings from '../../services/settingsService';
 
 class BookmarksList extends Component {
     constructor(props) {
@@ -246,7 +247,7 @@ class BookmarksList extends Component {
     }
 
     render() {
-        let pageNumber = Math.ceil(this.props.total / 15);
+        let pageNumber = Math.ceil(this.props.total / settings.PAGE_SIZE);
 
         let sortByOptions = [
             {key: 'title', text: 'Title'},
