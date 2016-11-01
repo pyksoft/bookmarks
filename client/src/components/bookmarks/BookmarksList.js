@@ -8,6 +8,7 @@ import Confirm from '../common/Confirm';
 import BookmarkItem from './BookmarkItem';
 import SaveBookmark from './SaveBookmark';
 import apiService from '../../services/apiService';
+import toastr from 'toastr';
 
 class BookmarksList extends Component {
     constructor(props) {
@@ -72,6 +73,17 @@ class BookmarksList extends Component {
     }
 
     deleteBookmark() {
+        apiService.deleteBookmark(this.state.bookmarkToDeleteId)
+            .then(() => {
+                toastr.success('Bookmark was deleted');
+
+                this.loadData();
+
+                this.setState({
+                    bookmarkToDeleteId: null
+                });
+            });
+
         this.setState({
             bookmarkToDeleteId: null
         });
@@ -93,6 +105,10 @@ class BookmarksList extends Component {
     saveBookmark() {
         apiService.saveBookmark(this.state.bookmarkToEdit)
             .then(() => {
+                toastr.success('Bookmark was saved');
+
+                this.loadData();
+
                 this.setState({
                     bookmarkToEdit: null
                 });

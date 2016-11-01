@@ -106,6 +106,7 @@ class BookmarksPage extends Component {
                                    onPageChange={this.onPageChange}
                                    onSortByChange={this.onSortByChange}
                                    onSortDirectionChange={this.onSortDirectionChange}
+                                   onLoadData={this.loadData}
                     />
                 </div>
             </div>

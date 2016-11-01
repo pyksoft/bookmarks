@@ -4,6 +4,7 @@ import helper from '../helpers/stubsHelper';
 export default {
     getBookmarks,
     saveBookmark,
+    deleteBookmark,
     getTags,
     deleteTag,
     saveTag
@@ -33,11 +34,26 @@ function getBookmarks(searchQuery) {
 
 function saveBookmark(bookmark) {
     if (bookmark.id) {
-        console.log('todo');
-        return Promise.resolve(null);
+        return updateBookmark(bookmark);
     } else {
         return addBookmark(bookmark);
     }
+}
+
+function updateBookmark(bookmark) {
+    let tagIds = bookmark.tags.map(t => t.id);
+
+    let newBookmark = Object.assign({}, bookmark, {tags: tagIds});
+
+    let bookmarks = jsonData.bookmarks;
+
+    for (let i = 0; i < bookmarks.length; i++) {
+        if (bookmarks[i].id === bookmark.id) {
+            bookmarks[i] = newBookmark;
+        }
+    }
+
+    return Promise.resolve(null);
 }
 
 function addBookmark(bookmark) {
@@ -46,6 +62,18 @@ function addBookmark(bookmark) {
     let newBookmark = Object.assign({}, bookmark, {tags: tagIds});
 
     helper.addToList(jsonData.bookmarks, newBookmark);
+
+    return Promise.resolve(null);
+}
+
+function deleteBookmark(id) {
+    let bookmarks = jsonData.bookmarks;
+
+    for (let i = 0; i < bookmarks.length; i++) {
+        if (bookmarks[i].id === id) {
+            bookmarks.splice(i, 1);
+        }
+    }
 
     return Promise.resolve(null);
 }
