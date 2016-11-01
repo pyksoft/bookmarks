@@ -22,7 +22,7 @@
     },
     {
       "id": 5,
-      "title": "news!!",
+      "title": "news",
       "description": ""
     }
   ],
@@ -31,56 +31,78 @@
       "id": 1,
       "url": "http://www.bbc.com",
       "title": "BBC news",
-      "tags": ["news"],
+      "tags": [5],
       "isTagged": true,
-      "originalPath": "bookmarks/news"
+      "originalPath": "bookmarks/news",
+      "isDeleted": false,
+      "creationDate": "2012-03-19T07:22Z",
+      "lastEditDate": "2016-11-01T10:33Z"
     },
     {
       "id": 2,
       "url": "http://www.abc.net.au/",
       "title": "ABC news",
-      "tags": ["news", "Australia"],
+      "tags": [5, 2],
       "isTagged": true,
-      "originalPath": "bookmarks/news"
+      "originalPath": "bookmarks/news",
+      "isDeleted": false,
+      "creationDate": "2012-03-19T07:22Z",
+      "lastEditDate": "2016-11-01T10:33Z"
     },
     {
       "id": 3,
       "url": "http://www.github.com",
       "title": "Github",
-      "tags": ["programming"],
+      "tags": [1],
       "isTagged": true,
-      "originalPath": "bookmarks/it"
+      "originalPath": "bookmarks/it",
+      "isDeleted": false,
+      "creationDate": "2012-03-19T07:22Z",
+      "lastEditDate": "2016-11-01T10:33Z"
     },
     {
       "id": 4,
       "url": "http://www.bitbucket.com",
       "title": "Bitbucket Atlassian",
-      "tags": ["programming"],
+      "tags": [1],
       "isTagged": true,
-      "originalPath": "bookmarks/it"
+      "originalPath": "bookmarks/it",
+      "isDeleted": false,
+      "creationDate": "2012-03-19T07:22Z",
+      "lastEditDate": "2016-11-01T10:33Z"
     },
     {
       "id": 5,
       "url": "http://www.booking.com",
       "title": "Hotel booking",
-      "tags": ["travel"],
+      "tags": [4],
       "isTagged": true,
-      "originalPath": "bookmarks/travel"
+      "originalPath": "bookmarks/travel",
+      "isDeleted": false,
+      "creationDate": "2012-03-19T07:22Z",
+      "lastEditDate": "2016-11-01T10:33Z"
     },
     {
       "id": 6,
       "url": "http://www.australia.com/en/itineraries/drive-australia.html",
       "title": "Drive Australia",
-      "tags": ["travel", "Australia"],
+      "tags": [4, 2],
       "isTagged": true,
-      "originalPath": "bookmarks"
+      "originalPath": "bookmarks",
+      "isDeleted": false,
+      "creationDate": "2012-03-19T07:22Z",
+      "lastEditDate": "2016-11-01T10:33Z"
     },
     {
       "id": 7,
       "url": "https://www.ru.wikipedia.org/",
       "title": "Wikipedia",
+      "tags": [],
       "isTagged": false,
-      "originalPath": "bookmarks/others"
+      "originalPath": "bookmarks/others",
+      "isDeleted": false,
+      "creationDate": "2012-03-19T07:22Z",
+      "lastEditDate": "2016-11-01T10:33Z"
     }
   ]
 }

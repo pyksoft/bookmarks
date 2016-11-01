@@ -3,7 +3,7 @@ import autoBind from 'react-autobind';
 import './BookmarksSearchFilter.css';
 import BookmarkSearchMode from './BookmarkSearchMode';
 import TagSelector from '../common/TagSelector';
-import tagService from '../../services/tagService';
+import apiService from '../../services/apiService';
 
 class BookmarksSearchFilter extends Component {
     constructor(props) {
@@ -38,7 +38,7 @@ class BookmarksSearchFilter extends Component {
     }
 
     componentDidMount() {
-        tagService.getTags()
+        apiService.getTags()
             .then((tags) => {
                 let tagsOptions = tags.map(tag => ({
                     value: tag.title,

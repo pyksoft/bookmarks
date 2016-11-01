@@ -6,5 +6,6 @@
   "dependencies": {
   },
   "scripts": {
+    "watch": "cd client && npm start"
   }
 }

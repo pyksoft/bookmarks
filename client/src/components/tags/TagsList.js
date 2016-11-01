@@ -5,7 +5,7 @@ import Confirm from '../common/Confirm';
 import TagItem from './TagItem';
 import SaveTag from './SaveTag';
 import './TagsList.css';
-import tagService from '../../services/tagService';
+import apiService from '../../services/apiService';
 
 class TagsList extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class TagsList extends Component {
     }
 
     componentDidMount() {
-        tagService.getTags()
+        apiService.getTags()
             .then((tags) => {
                 this.setState({
                     tags

@@ -6,8 +6,7 @@ import ListAction from '../common/ListAction';
 import Confirm from '../common/Confirm';
 import BookmarkItem from './BookmarkItem';
 import SaveBookmark from './SaveBookmark';
-import bookmarkService from '../../services/bookmarkService';
-import tagService from '../../services/tagService';
+import apiService from '../../services/apiService';
 
 class BookmarksList extends Component {
     constructor(props) {
@@ -30,7 +29,7 @@ class BookmarksList extends Component {
     }
 
     componentDidMount() {
-        tagService.getTags()
+        apiService.getTags()
             .then((tags) => {
                 this.setState({
                     tags
@@ -41,7 +40,7 @@ class BookmarksList extends Component {
     }
 
     loadData() {
-        bookmarkService.getBookmarks(this.state.activePage, this.state.sortBy, this.state.searchStr)
+        apiService.getBookmarks(this.state.activePage, this.state.sortBy, this.state.searchStr)
             .then((data) => {
                 this.setState({
                     bookmarks: data.dataItems,

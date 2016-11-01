@@ -1,8 +1,11 @@
 import httpHelper from '../helpers/httpHelper';
 
 export default {
-    getBookmarks
-};
+    getBookmarks,
+    getTags,
+    deleteTag,
+    saveTag
+}
 
 function getBookmarks(page, sortBy, searchStr) {
     if (!searchStr) searchStr = '';
@@ -15,4 +18,18 @@ function getBookmarks(page, sortBy, searchStr) {
                 dataItems: jsonData
             }
         });
+}
+
+function getTags() {
+    return httpHelper.get('/tags');
+}
+
+function deleteTag(id) {
+    let data = {id};
+
+    return httpHelper.delete('/api/tag', data);
+}
+
+function saveTag(tag) {
+    return httpHelper.post('/api/saveTag', {tag});
 }

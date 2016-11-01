@@ -1,11 +1,12 @@
 import helper from './_controllerHelper';
+import bookmarksRepository from '../repositories/bookmarksRepository';
 
 export default {
     getBookmarks
 };
 
 function getBookmarks(req, res) {
-    Promise.resolve([1, 2, 3])
+    bookmarksRepository.getBookmarks()
         .then((data) => {
             return helper.sendData({data}, res);
         })
