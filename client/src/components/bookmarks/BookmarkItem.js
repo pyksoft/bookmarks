@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './BookmarkItem.css';
+import moment from 'moment';
 
 const MAX_URL_DISPLAY_LENGTH = 50;
 
@@ -19,9 +20,9 @@ class BookmarkItem extends Component {
     getBookmarkTooltip(bookmark, tags){
         let result = '';
 
-        //let date = moment(this.bookmark.creationDate).format('D MMM YYYY');
+        let date = moment(bookmark.creationDate).format('D MMM YYYY');
 
-        result += `Created: ${bookmark.creationDate} \n`;
+        result += `Created: ${date} \n`;
 
         if (bookmark.originalPath) {
             result += `Original path: ${bookmark.originalPath}`;

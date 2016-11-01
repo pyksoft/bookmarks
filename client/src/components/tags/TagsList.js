@@ -6,6 +6,7 @@ import TagItem from './TagItem';
 import SaveTag from './SaveTag';
 import './TagsList.css';
 import apiService from '../../services/apiService';
+import toastr from 'toastr';
 
 class TagsList extends Component {
     constructor(props) {
@@ -21,6 +22,10 @@ class TagsList extends Component {
     }
 
     componentDidMount() {
+        this.loadData();
+    }
+
+    loadData() {
         apiService.getTags()
             .then((tags) => {
                 this.setState({
@@ -62,13 +67,18 @@ class TagsList extends Component {
             tagToEdit: null
         });
     }
-    
-    deleteTag(tagId) {
-        console.log('todo');
 
-        this.setState({
-            tagToDeleteId: null
-        });
+    deleteTag() {
+        apiService.deleteTag(this.state.tagToDeleteId)
+            .then(() => {
+                toastr.success('Tag was deleted');
+
+                this.setState({
+                    tagToDeleteId: null
+                });
+
+                this.loadData();
+            })
     }
 
     confirmDeleteTag(id) {
@@ -93,7 +103,7 @@ class TagsList extends Component {
             <div id="info-message">You do not have any tags.</div>
         );
 
-        let deleteConfirmVisible = this.state.bookmarkToDeleteId ? true : false;
+        let deleteConfirmVisible = this.state.tagToDeleteId ? true : false;
         let editTagVisible = this.state.tagToEdit ? true : false;
 
         return (
@@ -120,16 +130,16 @@ class TagsList extends Component {
                             return <TagItem key={tag.id}
                                             tag={tag}
                                             editTagAction={this.editTag}
-                                            deleteTagAction={this.confirmDeleteTag} 
+                                            deleteTagAction={this.confirmDeleteTag}
                             />
                         })
                     }
                 </div>
 
-                <Confirm visible={deleteConfirmVisible} action={this.deleteTag} close={this.cancelDeleteTag} />
+                <Confirm visible={deleteConfirmVisible} action={this.deleteTag} close={this.cancelDeleteTag}/>
 
                 <SaveTag visible={editTagVisible} tag={this.state.tagToEdit} save={this.saveTag}
-                         close={this.cancelEditTag} onChange={this.updateTagState} />
+                         close={this.cancelEditTag} onChange={this.updateTagState}/>
             </div>
         );
     }

@@ -44,7 +44,10 @@ function generateBookmarks(bookmarks) {
             tags.push(tagLookup[tagId]);
         }
 
-        result.push(Object.assign({}, bookmark, {tags}));
+        result.push(Object.assign({}, bookmark, {
+            tags,
+            isTagged: tags.length ? true: false
+        }));
     }
 
     return result;
@@ -61,7 +64,13 @@ function getTags() {
 }
 
 function deleteTag(id) {
-    notImplemented();
+    helper.deleteFromList(jsonData.tags, (tag) => tag.id === id);
+
+    for (let bookmark of jsonData.bookmarks) {
+        helper.deleteFromList(bookmark.tags, (tagId) => tagId === id);
+    }
+
+    return Promise.resolve(null);
 }
 
 function saveTag(tag) {

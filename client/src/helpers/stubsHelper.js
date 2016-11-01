@@ -1,7 +1,8 @@
 export default {
     searchList,
     sortList,
-    getPage
+    getPage,
+    deleteFromList
 }
 
 function searchList(list, searchStr, fields) {
@@ -45,4 +46,12 @@ function getPage(list, page, perPage) {
     var start = (page - 1) * perPage;
     var end = page * perPage;
     return list.slice(start, end);
+}
+
+function deleteFromList(list, predicate) {
+    for (let i = 0; i < list.length; i++) {
+        if (predicate(list[i])) {
+            list.splice(i, 1);
+        }
+    }
 }
