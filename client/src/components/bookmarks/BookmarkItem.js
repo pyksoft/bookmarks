@@ -41,6 +41,18 @@ class BookmarkItem extends Component {
         return result;
     }
 
+    static isChecked(bookmarkId, selectedBookmarksIds) {
+        let isChecked = false;
+
+        for (let id of selectedBookmarksIds) {
+            if(bookmarkId === id) {
+                isChecked = true;
+            }
+        }
+
+        return isChecked;
+    }
+
     render() {
 
         let tags = this.props.bookmark.tags;
@@ -55,6 +67,8 @@ class BookmarkItem extends Component {
             shortenedUrl = shortenedUrl.substring(0, MAX_URL_DISPLAY_LENGTH) + '...';
         }
 
+        let isChecked = BookmarkItem.isChecked(this.props.bookmark.id, this.props.selectedBookmarks);
+
         let editClick = () => {
             this.props.editBookmarkAction(this.props.bookmark);
         };
@@ -66,11 +80,16 @@ class BookmarkItem extends Component {
         let restoreClick = () => {
             this.props.restoreBookmarkAction(this.props.bookmark.id);
         };
+        
+        let handleChange = () => {
+            this.props.selectBookmarkAction(this.props.bookmark.id);  
+        };
 
         return (
             <div className="bookmark-row">
                 <div className="bookmark-cell checkbox">
-                    <input type="checkbox" id={this.props.bookmark.id} value={this.props.bookmark.id} />
+                    <input type="checkbox" id={this.props.bookmark.id} value={this.props.bookmark.id}
+                           checked={isChecked} onChange={handleChange} />
                 </div>
 
                 <div className="bookmark-cell title">
@@ -128,7 +147,8 @@ BookmarkItem.propTypes = {
     selectedBookmarks: React.PropTypes.array.isRequired,
     editBookmarkAction: React.PropTypes.func.isRequired,
     deleteBookmarkAction: React.PropTypes.func.isRequired,
-    restoreBookmarkAction: React.PropTypes.func.isRequired
+    restoreBookmarkAction: React.PropTypes.func.isRequired,
+    selectBookmarkAction: React.PropTypes.func.isRequired
 };
 
 export default BookmarkItem;

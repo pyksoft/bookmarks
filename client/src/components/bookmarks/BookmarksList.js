@@ -70,6 +70,20 @@ class BookmarksList extends Component {
         });
     }
 
+    editSelectedBookmark() {
+        let selectedBookmarks = this.state.selectedBookmarks;
+
+        if(selectedBookmarks.length === 1) {
+            let bookmarks = this.props.bookmarks.filter(b => selectedBookmarks.indexOf(b.id) !== -1);
+
+            if(bookmarks) {
+                this.setState({
+                    bookmarkToEdit: Object.assign({}, bookmarks[0])
+                });
+            }
+        }
+    }
+
     addTagForBookmarks() {
         console.log('todo');
     }
@@ -141,20 +155,38 @@ class BookmarksList extends Component {
 
     selectAllBookmarks() {
         this.setState({
-            selectedBookmarks: []
+            selectedBookmarks: [],
+            allSelected: false
         });
 
         if (!this.state.allSelected) {
             let selectedBookmarks = [];
 
             for (let bookmark of this.props.bookmarks) {
-                selectedBookmarks.push(bookmark.id.toString());
+                selectedBookmarks.push(bookmark.id);
             }
 
             this.setState({
-                selectedBookmarks: selectedBookmarks
+                selectedBookmarks: selectedBookmarks,
+                allSelected: true
             });
         }
+    }
+
+    selectBookmark(bookmarkId) {
+        let selectedBookmarks = this.state.selectedBookmarks;
+
+        let index = selectedBookmarks.indexOf(bookmarkId);
+
+        if (index === -1) {
+            selectedBookmarks.push(bookmarkId);
+        } else {
+            selectedBookmarks.splice(index, 1);
+        }
+
+        this.setState({
+            selectedBookmarks
+        });
     }
 
     get anyBookmarks() {
@@ -203,7 +235,7 @@ class BookmarksList extends Component {
                         />
 
                         <ListAction
-                            action={this.editBookmark}
+                            action={this.editSelectedBookmark}
                             tooltip="Edit bookmark"
                             icon="fa-pencil"
                             disabled={this.onlyOneSelected}
@@ -258,7 +290,7 @@ class BookmarksList extends Component {
                 <div className="bookmark-list-body-header">
                     <div className="bookmark-row">
                         <div className="bookmark-cell checkbox">
-                            <input type="checkbox" onClick={() => this.selectAllBookmarks}
+                            <input type="checkbox" onChange={this.selectAllBookmarks}
                                    value={this.state.allSelected}/>
                         </div>
                         <div className="bookmark-cell title">Title</div>
@@ -278,6 +310,7 @@ class BookmarksList extends Component {
                                                  editBookmarkAction={this.editBookmark}
                                                  deleteBookmarkAction={this.confirmDeleteBookmark}
                                                  restoreBookmarkAction={this.restoreBookmarkAction}
+                                                 selectBookmarkAction={this.selectBookmark}
                             />
                         })
                     }
