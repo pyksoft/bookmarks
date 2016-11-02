@@ -8,6 +8,7 @@ export default {
     deleteBookmark,
     deleteMultipleBookmarks,
     addTagsForMultipleBookmarks,
+    getStatistic,
     getTags,
     deleteTag,
     saveTag
@@ -102,6 +103,24 @@ function addTagsForMultipleBookmarks(ids, selectedTags) {
     }
 
     return Promise.resolve(null);
+}
+
+function getStatistic() {
+    let bookmarks = jsonData.bookmarks;
+
+    let deletedBookmarks = bookmarks.filter(bookmark => {
+        return bookmark.isDeleted;
+    });
+    
+    let taggedBookmarks = bookmarks.filter(bookmark => {
+        return bookmark.tags.length;
+    });
+
+    return Promise.resolve({
+        totalBookmarksCount: bookmarks.length,
+        taggedBookmarksCount: taggedBookmarks.length,
+        deletedBookmarksCount: deletedBookmarks.length
+    });
 }
 
 function generateBookmarks(bookmarks) {

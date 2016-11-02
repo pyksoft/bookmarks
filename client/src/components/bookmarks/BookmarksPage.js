@@ -39,6 +39,8 @@ class BookmarksPage extends Component {
                 }, () => {
                     this.loadData();
                 });
+                
+                this.loadStatistic();
             });
     }
 
@@ -66,6 +68,8 @@ class BookmarksPage extends Component {
             bookmarks: data.dataItems,
             total: data.total
         });
+
+        this.loadStatistic();
     }
 
     loadTags() {
@@ -73,6 +77,19 @@ class BookmarksPage extends Component {
             .then((tags) => {
                 this.setState({
                     tags
+                });
+            });
+    }
+    
+    loadStatistic() {
+        apiService.getStatistic()
+            .then((stat) => {
+                this.setState({
+                    stat: Object.assign({}, this.state.stat, {
+                        totalBookmarksCount: stat.totalBookmarksCount,
+                        taggedBookmarksCount: stat.taggedBookmarksCount,
+                        deletedBookmarksCount: stat.deletedBookmarksCount
+                    })
                 });
             });
     }
