@@ -19,7 +19,9 @@ class BookmarksPage extends Component {
                 activePage: 1,
                 sortBy: 'title',
                 sortAsc: true,
-                searchStr: ''
+                searchStr: '',
+                searchMode: '',
+                searchTags: []
             },
             stat: {
                 totalBookmarksCount: 0,
@@ -125,13 +127,29 @@ class BookmarksPage extends Component {
             this.loadData();
         });
     }
+    
+    onSearch(searchStr, searchMode, searchTags) {
+        this.setState({
+            searchQuery: Object.assign({}, this.state.searchQuery, {
+                activePage: 1,
+                searchStr,
+                searchMode,
+                searchTags
+            })
+        }, () => {
+            this.loadData();
+        });
+    }
 
     render() {
         return (
             <div className="container">
                 <div id="search">
                     <BookmarkStatistics {...this.state.stat}/>
-                    <BookmarksSearchFilter/>
+                    
+                    <BookmarksSearchFilter tags={this.state.tags}
+                                           total={this.state.total}
+                                           onSearch={this.onSearch} />
                 </div>
                 <div id="bookmarks-list">
                     <BookmarksList bookmarks={this.state.bookmarks}

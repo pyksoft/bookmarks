@@ -15,8 +15,9 @@ export default {
 }
 
 function getBookmarks(searchQuery) {
-
-    let bookmarks = helper.searchList(jsonData.bookmarks, searchQuery.searchStr, ['title', 'url']);
+    let bookmarks = helper.filterList(jsonData.bookmarks, searchQuery.searchMode, searchQuery.searchTags);
+    
+    bookmarks = helper.searchList(bookmarks, searchQuery.searchStr, ['title', 'url']);
 
     bookmarks = helper.sortList(bookmarks, searchQuery.sortBy, searchQuery.sortAsc, [
         {name: 'title', type: 'string'},

@@ -3,7 +3,6 @@ import autoBind from 'react-autobind';
 import './BookmarksSearchFilter.css';
 import BookmarkSearchMode from './BookmarkSearchMode';
 import TagSelector from '../common/TagSelector';
-import apiService from '../../services/apiService';
 
 class BookmarksSearchFilter extends Component {
     constructor(props) {
@@ -25,7 +24,6 @@ class BookmarksSearchFilter extends Component {
                     active: false
                 }
             },
-            tags: [],
             selectedTags: [],
             tagsOptions: []
         };
@@ -33,27 +31,52 @@ class BookmarksSearchFilter extends Component {
         autoBind(this);
     }
 
-    componentDidMount() {
-        apiService.getTags()
-            .then((tags) => {
-                let tagsOptions = tags.map(tag => ({
-                    value: tag.title,
-                    label: tag.title
-                }));
+    componentWillReceiveProps(nextProps) {
+        let tagsOptions = nextProps.tags.map(tag => ({
+            value: tag.id,
+            label: tag.title
+        }));
 
-                this.setState({
-                    tags,
-                    tagsOptions
-                });
-            });
+        this.setState({
+            tagsOptions
+        });
     }
 
     search() {
-        console.log('todo');
+        let searchMode = '';
+        
+        for (let key of Object.keys(this.state.searchMode)) {
+            let searchModeItem = this.state.searchMode[key];
+            
+            if(searchModeItem.active) {
+                searchMode = searchModeItem.id;
+            }
+        }
+        
+        this.props.onSearch(this.state.searchStr, searchMode, this.state.selectedTags);
     }
 
     clear() {
-        console.log('todo');
+        this.setState({
+            searchStr: '',
+            searchMode: {
+                noTags: {
+                    id: 'no_tags',
+                    active: false
+                },
+                tagsSelection: {
+                    id: 'tag_selection',
+                    active: false
+                },
+                deleted: {
+                    id: 'deleted',
+                    active: false
+                }
+            },
+            selectedTags: []
+        }, () => {
+            this.search();
+        });
     }
 
     toggleSearchMode(id) {
@@ -70,28 +93,16 @@ class BookmarksSearchFilter extends Component {
     }
 
     updateState(field, value) {
-        if (!value) {
-            return this.setState({selectedTags: []});
-        }
+        let selectedTags = this.state.tagsOptions.filter(to => {
+            return value.indexOf(to.value) !== -1;
+        });
 
-        let selectedTags = this.state.selectedTags;
-
-        let index = selectedTags.indexOf(value);
-
-        if (index === -1) {
-            selectedTags.push(value);
-        } else {
-            selectedTags.splice(index, 1);
-        }
-
-        return this.setState({selectedTags});
+        return this.setState({
+            selectedTags
+        });
     }
 
     render() {
-        let selectedTags = this.state.tagsOptions.filter(to => {
-            return this.state.selectedTags.indexOf(to.value) !== -1;
-        });
-
         return (
             <div>
                 <div className="col-xs-12 title-row">
@@ -137,7 +148,7 @@ class BookmarksSearchFilter extends Component {
                             label="Select tags:"
                             multi={true}
                             options={this.state.tagsOptions}
-                            value={selectedTags}
+                            value={this.state.selectedTags}
                             onChange={this.updateState}
                         />
                     </BookmarkSearchMode>
@@ -151,7 +162,7 @@ class BookmarksSearchFilter extends Component {
 
                 <div className="form-group">
                     <div className="col-xs-12 results-row">
-                        Results found: <strong>{this.state.foundBookmarksCount}</strong>
+                        Results found: <strong>{this.props.total}</strong>
                     </div>
                     <div className="col-xs-12 search-actions">
                         <button id="btn-search" className="btn btn-primary" onClick={this.search}>Search</button>

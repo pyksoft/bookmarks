@@ -4,14 +4,15 @@ export default {
     getPage,
     deleteFromList,
     addToList,
+    filterList
 }
 
 function searchList(list, searchStr, fields) {
     if (!searchStr) return list;
 
-    return list.filter(movie => {
+    return list.filter(bookmark => {
         for (let field of fields) {
-            if (containsString(list[field], searchStr)) return true;
+            if (containsString(bookmark[field], searchStr)) return true;
         }
 
         return false;
@@ -74,4 +75,34 @@ function addToList(list, entity, idField = 'id') {
     entity[idField] = maxId + 1;
 
     list.push(entity);
+}
+
+function filterList(list, mode, tags) {
+    let result = list;
+
+    switch (mode) {
+        case 'no_tags':
+            result = list.filter(bookmark => {
+                return bookmark.tags.length === 0;
+            });
+            break;
+        case 'tag_selection':
+            let tagIds = tags.map(t => t.value);
+
+            result = list.filter(bookmark => {
+                let selectedTags = bookmark.tags.filter(id => {
+                    return tagIds.indexOf(id) !== -1;
+                });
+
+                return selectedTags.length > 0;
+            });
+            break;
+        case 'deleted':
+            //TODO
+            break;
+        default:
+            break;
+    }
+
+    return result;
 }
