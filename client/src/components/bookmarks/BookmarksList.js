@@ -89,12 +89,17 @@ class BookmarksList extends Component {
         }
     }
 
-    addTagForBookmarks() {
-        console.log('todo');
+    addTagForBookmarks(selectedTags) {
+        apiService.addTagsForMultipleBookmarks(this.state.selectedBookmarks, selectedTags)
+            .then(() => {
+                toastr.success('Tags were added');
 
-        this.setState({
-            showAddTagModal: false
-        });
+                this.loadData();
+
+                this.setState({
+                    showAddTagModal: false
+                });
+            });
     }
 
     displayAddTagModal() {

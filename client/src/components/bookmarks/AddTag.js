@@ -20,10 +20,25 @@ class AddTag extends Component {
         autoBind(this);
     }
 
+    save() {
+        this.props.save(this.state.selectedTags);
+
+        return this.setState({
+            selectedTags: []
+        });
+    }
+
+    close() {
+        this.props.close();
+
+        return this.setState({
+            selectedTags: []
+        });
+    }
 
     updateSelectedTagState(field, value) {
         let selectedTags = this.state.tagsOptions.filter(to => {
-            return this.props.tags.indexOf(to.value) !== -1;
+            return value.indexOf(to.value) !== -1;
         });
 
         return this.setState({
@@ -34,8 +49,8 @@ class AddTag extends Component {
     render() {
         return (
             <div>
-                <Modal show={this.props.visible} onHide={this.props.close}>
-                    <Modal.Header closeButton onClick={this.props.close}>
+                <Modal show={this.props.visible} onHide={this.close}>
+                    <Modal.Header closeButton onClick={this.close}>
                         <Modal.Title>Add tag</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{minHeight: 200}}>
@@ -49,8 +64,8 @@ class AddTag extends Component {
                         />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button bsStyle="primary" onClick={this.props.save}>Update</Button>
-                        <Button onClick={this.props.close}>Cancel</Button>
+                        <Button bsStyle="primary" onClick={this.save}>Update</Button>
+                        <Button onClick={this.close}>Cancel</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

@@ -7,6 +7,7 @@ export default {
     saveBookmark,
     deleteBookmark,
     deleteMultipleBookmarks,
+    addTagsForMultipleBookmarks,
     getTags,
     deleteTag,
     saveTag
@@ -83,6 +84,23 @@ function deleteMultipleBookmarks(ids) {
         deleteBookmark(ids[i]);
     }
     
+    return Promise.resolve(null);
+}
+
+function addTagsForMultipleBookmarks(ids, selectedTags) {
+    let bookmarks = jsonData.bookmarks;
+    let tagIds = selectedTags.map(t => t.value);
+
+    for (let i = 0; i < ids.length; i++) {
+        for (let j = 0; j < bookmarks.length; j++) {
+            if (bookmarks[j].id === ids[i]) {
+                let newBookmark = Object.assign({}, bookmarks[j], {tags: tagIds});
+
+                bookmarks[j] = newBookmark;
+            }
+        }
+    }
+
     return Promise.resolve(null);
 }
 
