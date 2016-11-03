@@ -90,6 +90,9 @@ class BookmarksSearchFilter extends Component {
         }
 
         this.setState(this.state);
+        this.setState({
+            selectedTags: []
+        });
     }
 
     updateState(field, value) {

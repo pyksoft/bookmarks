@@ -78,7 +78,9 @@ function addToList(list, entity, idField = 'id') {
 }
 
 function filterList(list, mode, tags) {
-    let result = list;
+    let result = list.filter(bookmark => {
+        return (mode === 'deleted') ? bookmark.isDeleted : !bookmark.isDeleted;
+    });
 
     switch (mode) {
         case 'no_tags':
@@ -96,9 +98,6 @@ function filterList(list, mode, tags) {
 
                 return selectedTags.length > 0;
             });
-            break;
-        case 'deleted':
-            //TODO
             break;
         default:
             break;

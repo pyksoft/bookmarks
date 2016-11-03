@@ -6,6 +6,7 @@ export default {
     getBookmarks,
     saveBookmark,
     deleteBookmark,
+    restoreBookmark,
     deleteMultipleBookmarks,
     addTagsForMultipleBookmarks,
     getStatistic,
@@ -74,7 +75,19 @@ function deleteBookmark(id) {
 
     for (let i = 0; i < bookmarks.length; i++) {
         if (bookmarks[i].id === id) {
-            bookmarks.splice(i, 1);
+            bookmarks[i].isDeleted = true;
+        }
+    }
+
+    return Promise.resolve(null);
+}
+
+function restoreBookmark(id) {
+    let bookmarks = jsonData.bookmarks;
+
+    for (let i = 0; i < bookmarks.length; i++) {
+        if (bookmarks[i].id === id) {
+            bookmarks[i].isDeleted = false;
         }
     }
 

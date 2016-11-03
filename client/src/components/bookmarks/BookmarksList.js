@@ -19,6 +19,7 @@ class BookmarksList extends Component {
         this.state = {
             bookmarkToEdit: null,
             bookmarkToDeleteId: null,
+            bookmarkToRestore: null,
             selectedBookmarks: [],
             allSelected: false,
             showConfirm: false,
@@ -198,8 +199,29 @@ class BookmarksList extends Component {
         return this.setState({bookmarkToEdit: bookmark});
     }
 
-    restoreBookmarkAction() {
-        console.log('todo');
+    restoreBookmark() {
+        apiService.restoreBookmark(this.state.bookmarkToRestore)
+            .then(() => {
+                toastr.success('Bookmark was restored');
+
+                this.loadData();
+
+                this.setState({
+                    bookmarkToRestore: null
+                });
+            });
+    }
+
+    cancelRestoreBookmark() {
+        this.setState({
+            bookmarkToRestore: null
+        });
+    }
+
+    confirmRestoreBookmark(id) {
+        this.setState({
+            bookmarkToRestore: id
+        });
     }
 
     selectAllBookmarks() {
@@ -262,6 +284,7 @@ class BookmarksList extends Component {
 
         let deleteConfirmVisible = this.state.bookmarkToDeleteId ? true : false;
         let editBookmarkVisible = this.state.bookmarkToEdit ? true : false;
+        let restoreConfirmVisible = this.state.bookmarkToRestore ? true : false;
 
         let iconClass = classnames({
             'fa': true,
@@ -358,7 +381,7 @@ class BookmarksList extends Component {
                                                  selectedBookmarks={this.state.selectedBookmarks}
                                                  editBookmarkAction={this.editBookmark}
                                                  deleteBookmarkAction={this.confirmDeleteBookmark}
-                                                 restoreBookmarkAction={this.restoreBookmarkAction}
+                                                 restoreBookmarkAction={this.confirmRestoreBookmark}
                                                  selectBookmarkAction={this.selectBookmark}
                             />
                         })
@@ -368,6 +391,8 @@ class BookmarksList extends Component {
                 <Confirm visible={this.state.showConfirm} action={this.deleteBookmarks} close={this.cancelDeleteBookmarks}/>
 
                 <Confirm visible={deleteConfirmVisible} action={this.deleteBookmark} close={this.cancelDeleteBookmark}/>
+                
+                <Confirm visible={restoreConfirmVisible} action={this.restoreBookmark} close={this.cancelRestoreBookmark}/>
 
                 <SaveBookmark visible={editBookmarkVisible} bookmark={this.state.bookmarkToEdit} tags={this.props.tags}
                               save={this.saveBookmark} close={this.cancelEditBookmark}
