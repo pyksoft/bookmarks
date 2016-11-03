@@ -50,7 +50,7 @@ class BookmarksPage extends Component {
         let data = await apiService.getBookmarks(this.state.searchQuery);
 
         let page = this.state.searchQuery.activePage;
-        let pageNumber = Math.ceil(this.props.total / settings.PAGE_SIZE);
+        let pageNumber = Math.ceil(data.total / settings.PAGE_SIZE);
 
         //when delete the last element on the last page
         if (page > pageNumber) {
