@@ -218,14 +218,14 @@ function filterBookmarks(list, mode, tags) {
 
     switch (mode) {
         case 'no_tags':
-            result = list.filter(bookmark => {
+            result = result.filter(bookmark => {
                 return bookmark.tags.length === 0;
             });
             break;
         case 'tag_selection':
             let tagIds = tags.map(t => t.value);
 
-            result = list.filter(bookmark => {
+            result = result.filter(bookmark => {
                 let selectedTags = bookmark.tags.filter(id => {
                     return tagIds.indexOf(id) !== -1;
                 });
