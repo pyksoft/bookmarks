@@ -1,5 +1,7 @@
 import helper from './_controllerHelper';
+import * as path from 'path';
 import dataRepository from '../repositories/dataRepository';
+import userSettingsHelper from '../helpers/userSettingsHelper';
 
 export default {
     getBookmarks,
@@ -146,9 +148,20 @@ function restoreBookmark(req, res) {
 }
 
 function changeDbPath(req, res) {
+    let filePath = req.body.filePath;
 
+    userSettingsHelper.setValue('dbPath', filePath);
+
+    return helper.sendData({}, res);
 }
 
 function getDbPath(req, res) {
+    let dbPath = userSettingsHelper.getValue('dbPath');
 
+    let defaultPathPart = userSettingsHelper.getValue('defaultDbPath');
+
+    let rootPath = path.join(__dirname, '../../..');
+    let defaultDbPath = path.join(rootPath, 'data/' + defaultPathPart);
+
+    return helper.sendData({dbPath, defaultDbPath}, res);
 }

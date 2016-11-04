@@ -14,7 +14,9 @@ export default {
     saveTag,
     exportBookmarks,
     importBrowserBookmarks,
-    importBackupBookmarks
+    importBackupBookmarks,
+    updateDbPath,
+    getDbPath
 }
 
 function getBookmarks(searchQuery) {
@@ -94,4 +96,12 @@ function importBrowserBookmarks(filePath) {
 
 function importBackupBookmarks(filePath) {
     return httpHelper.post('/api/import/backupBookmarks', {filePath});
+}
+
+function updateDbPath(filePath) {
+    return httpHelper.post('/api/settings/changeDbPath', {filePath});
+}
+
+function getDbPath() {
+    return httpHelper.get('/api/settings/getDbPath');
 }

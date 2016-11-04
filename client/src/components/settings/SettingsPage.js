@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import autoBind from 'react-autobind';
+import toastr from 'toastr';
+import apiService from '../../services/apiService';
 import './SettingsPage.css';
 
 class SettingsPage extends Component {
@@ -14,12 +16,25 @@ class SettingsPage extends Component {
         autoBind(this);
     }
 
+    componentDidMount() {
+        apiService.getDbPath()
+            .then((data) => {
+                this.setState({
+                    dbPath: data.dbPath,
+                    defaultDbPath: data.defaultDbPath
+                });
+            });
+    }
+
     updateDbPath() {
         console.log('todo');
     }
 
     clearDbPath() {
-        console.log('todo');
+        apiService.updateDbPath('')
+            .then(() => {
+                toastr.success('Database location was changed. Please, reopen application.');
+            });
     }
 
     render() {

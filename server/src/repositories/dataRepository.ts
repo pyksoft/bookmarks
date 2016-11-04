@@ -276,5 +276,5 @@ function importBackupBookmarks(filePath) {
 }
 
 function importBrowserBookmarks(filePath) {
-    const importData = jsonfile.readFileSync(filePath);
+    return Promise.resolve(null);
 }
