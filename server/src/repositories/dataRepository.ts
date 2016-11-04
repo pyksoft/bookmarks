@@ -2,7 +2,7 @@ import * as jsonfile from 'jsonfile';
 import helper from './repositoryHelper';
 
 const dbPath = './server/data/db.json';
-const jsonData = jsonfile.readFileSync(dbPath);
+let jsonData = jsonfile.readFileSync(dbPath);
 
 export default {
     getBookmarks,
@@ -14,7 +14,10 @@ export default {
     getStatistic,
     getTags,
     deleteTag,
-    saveTag
+    saveTag,
+    exportBookmarks,
+    importBrowserBookmarks,
+    importBackupBookmarks
 }
 
 function saveData() {
@@ -246,4 +249,32 @@ function filterBookmarks(list, mode, tags) {
     }
 
     return result;
+}
+
+function exportBookmarks(filePath) {
+    return new Promise((resolve, reject) => {
+        jsonfile.writeFile(filePath, jsonData, function (err) {
+            if (err) return reject(err);
+
+            return resolve(null);
+        })
+    });
+}
+
+function importBackupBookmarks(filePath) {
+    const importData = jsonfile.readFileSync(filePath);
+
+    return new Promise((resolve, reject) => {
+        jsonfile.writeFile(dbPath, importData, function (err) {
+            if (err) return reject(err);
+
+            jsonData = jsonfile.readFileSync(dbPath);
+
+            return resolve(null);
+        })
+    });
+}
+
+function importBrowserBookmarks(filePath) {
+    const importData = jsonfile.readFileSync(filePath);
 }

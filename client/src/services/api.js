@@ -11,7 +11,10 @@ export default {
     getStatistic,
     getTags,
     deleteTag,
-    saveTag
+    saveTag,
+    exportBookmarks,
+    importBrowserBookmarks,
+    importBackupBookmarks
 }
 
 function getBookmarks(searchQuery) {
@@ -79,4 +82,16 @@ function deleteTag(id) {
 
 function saveTag(tag) {
     return httpHelper.post('/api/saveTag', {tag});
+}
+
+function exportBookmarks(filePath) {
+    return httpHelper.post('/api/export/bookmarks', {filePath});
+}
+
+function importBrowserBookmarks(filePath) {
+    return httpHelper.post('/api/import/browserBookmarks', {filePath});
+}
+
+function importBackupBookmarks(filePath) {
+    return httpHelper.post('/api/import/backupBookmarks', {filePath});
 }

@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import autoBind from 'react-autobind';
 import classnames from 'classnames';
+import toastr from 'toastr';
+import apiService from '../../services/apiService';
+import settingsService from '../../services/settingsService';
 import './ImportPage.css';
 
 class ImportPage extends Component {
@@ -16,11 +19,25 @@ class ImportPage extends Component {
     }
 
     importAction(from) {
-        console.log('todo');
+        let importAction = from === 'browser' ? apiService.importBrowserBookmarks : apiService.importBackupBookmarks;
+
+        // TODO get real path
+        let path  = settingsService.importPath;
+        
+        importAction(path)
+            .then(() => {
+                toastr.success('Bookmarks was imported successfully');
+            });
     }
 
     exportBookmarks() {
-        console.log('todo');
+        // TODO get real path
+        let path  = settingsService.exportPath;
+        
+        apiService.exportBookmarks(path)
+            .then(() => {
+                toastr.success('Bookmarks was exported successfully');
+            });
     }
 
     render() {
