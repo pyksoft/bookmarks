@@ -3,9 +3,6 @@ import helper from './repositoryHelper';
 
 const dbPath = './server/data/db.json';
 const jsonData = jsonfile.readFileSync(dbPath);
-const settings = {
-    PAGE_SIZE: 15
-};
 
 export default {
     getBookmarks,
@@ -41,7 +38,7 @@ function getBookmarks(searchQuery) {
         {name: 'lastEditDate', type: 'date'}
     ]);
 
-    let result = helper.getPage(bookmarks, searchQuery.activePage, settings.PAGE_SIZE);
+    let result = helper.getPage(bookmarks, searchQuery.activePage, searchQuery.pageSize);
 
     result = generateBookmarks(result);
 

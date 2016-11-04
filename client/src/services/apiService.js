@@ -1,6 +1,5 @@
 import api from './api';
 import stubs from './stubs';
+import settingsService from './settingsService';
 
-const useStubs = true;
-
-export default useStubs ? stubs : api;
+export default settingsService.USE_STUBS ? stubs : api;
