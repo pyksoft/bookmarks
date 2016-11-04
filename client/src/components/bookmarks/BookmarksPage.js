@@ -41,7 +41,7 @@ class BookmarksPage extends Component {
                 }, () => {
                     this.loadData();
                 });
-                
+
                 this.loadStatistic();
             });
     }
@@ -82,25 +82,27 @@ class BookmarksPage extends Component {
                 });
             });
     }
-    
+
     loadStatistic() {
         apiService.getStatistic()
             .then((stat) => {
                 this.setState({
-                    stat: Object.assign({}, this.state.stat, {
+                    stat: {
+                        ...this.state.stat,
                         totalBookmarksCount: stat.totalBookmarksCount,
                         taggedBookmarksCount: stat.taggedBookmarksCount,
                         deletedBookmarksCount: stat.deletedBookmarksCount
-                    })
+                    }
                 });
             });
     }
 
     onPageChange(page) {
         this.setState({
-            searchQuery: Object.assign({}, this.state.searchQuery, {
+            searchQuery: {
+                ...this.state.searchQuery,
                 activePage: page
-            })
+            }
         }, () => {
             this.loadData();
         });
@@ -108,10 +110,11 @@ class BookmarksPage extends Component {
 
     onSortByChange(key) {
         this.setState({
-            searchQuery: Object.assign({}, this.state.searchQuery, {
+            searchQuery: {
+                ...this.state.searchQuery,
                 sortBy: key,
                 activePage: 1
-            })
+            }
         }, () => {
             this.loadData();
         });
@@ -119,15 +122,16 @@ class BookmarksPage extends Component {
 
     onSortDirectionChange() {
         this.setState({
-            searchQuery: Object.assign({}, this.state.searchQuery, {
+            searchQuery: {
+                ...this.state.searchQuery,
                 sortAsc: !this.state.searchQuery.sortAsc,
                 activePage: 1
-            })
+            }
         }, () => {
             this.loadData();
         });
     }
-    
+
     onSearch(searchStr, searchMode, searchTags) {
         this.setState({
             searchQuery: Object.assign({}, this.state.searchQuery, {
@@ -146,10 +150,10 @@ class BookmarksPage extends Component {
             <div className="container">
                 <div id="search">
                     <BookmarkStatistics {...this.state.stat}/>
-                    
+
                     <BookmarksSearchFilter tags={this.state.tags}
                                            total={this.state.total}
-                                           onSearch={this.onSearch} />
+                                           onSearch={this.onSearch}/>
                 </div>
                 <div id="bookmarks-list">
                     <BookmarksList bookmarks={this.state.bookmarks}
