@@ -1,6 +1,11 @@
-import jsonData from '../../data/db.json';
-import helper from '../helpers/stubsHelper';
-import settings from '../services/settingsService';
+import * as jsonfile from 'jsonfile';
+import helper from './repositoryHelper';
+
+const dbPath = './server/data/db.json';
+const jsonData = jsonfile.readFileSync(dbPath);
+const settings = {
+    PAGE_SIZE: 15
+};
 
 export default {
     getBookmarks,
@@ -16,7 +21,13 @@ export default {
 }
 
 function saveData() {
-    return Promise.resolve(null);
+    return new Promise((resolve, reject) => {
+        jsonfile.writeFile(dbPath, jsonData, function (err) {
+            if (err) return reject(err);
+
+            return resolve(null);
+        })
+    });
 }
 
 function getBookmarks(searchQuery) {

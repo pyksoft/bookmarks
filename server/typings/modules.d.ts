@@ -22,3 +22,8 @@ declare module 'lodash' {
     var x: any;
     export = x;
 }
+
+declare module 'jsonfile' {
+    var x: any;
+    export = x;
+}

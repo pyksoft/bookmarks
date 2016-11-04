@@ -1,5 +1,5 @@
 import helper from './_controllerHelper';
-import bookmarkRepository from '../repositories/bookmarksRepository';
+import dataRepository from '../repositories/dataRepository';
 
 export default {
     getBookmarks,
@@ -17,7 +17,13 @@ export default {
 };
 
 function getBookmarks(req, res) {
-    bookmarkRepository.getBookmarks()
+    let params = {
+        activePage: 1,
+        searchStr: '',
+        searchMode: ''
+    };
+
+    dataRepository.getBookmarks(params)
         .then((data) => {
             return helper.sendData({data}, res);
         })
@@ -29,7 +35,7 @@ function getBookmarks(req, res) {
 function deleteBookmark(req, res) {
     let bookmarkId = parseInt(req.body.id);
 
-    bookmarkRepository.deleteBookmark(bookmarkId)
+    dataRepository.deleteBookmark(bookmarkId)
         .then(() => {
             return helper.sendData({}, res);
         })

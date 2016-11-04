@@ -3,7 +3,8 @@ export default {
     sortList,
     getPage,
     deleteFromList,
-    addToList
+    addToList,
+    filterList
 }
 
 function searchList(list, searchStr, fields) {
@@ -74,4 +75,33 @@ function addToList(list, entity, idField = 'id') {
     entity[idField] = maxId + 1;
 
     list.push(entity);
+}
+
+function filterList(list, mode, tags) {
+    let result = list.filter(bookmark => {
+        return (mode === 'deleted') ? bookmark.isDeleted : !bookmark.isDeleted;
+    });
+
+    switch (mode) {
+        case 'no_tags':
+            result = list.filter(bookmark => {
+                return bookmark.tags.length === 0;
+            });
+            break;
+        case 'tag_selection':
+            let tagIds = tags.map(t => t.value);
+
+            result = list.filter(bookmark => {
+                let selectedTags = bookmark.tags.filter(id => {
+                    return tagIds.indexOf(id) !== -1;
+                });
+
+                return selectedTags.length > 0;
+            });
+            break;
+        default:
+            break;
+    }
+
+    return result;
 }
