@@ -1,3 +1,4 @@
+import homeController from '../controllers/homeController';
 import bookmarkController from '../controllers/bookmarkController';
 import tagController from '../controllers/tagController';
 
@@ -23,4 +24,7 @@ function initRoutes(app) {
     app.get('/api/tags', tagController.getTags);
     app.delete('/api/tag/:id', tagController.deleteTag);
     app.post('/api/saveTag', tagController.saveTag);
+
+    //all other routes are rendered as home (for client side routing)
+    app.get('*', homeController.home);
 }

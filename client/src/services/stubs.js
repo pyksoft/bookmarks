@@ -172,6 +172,8 @@ function getTags() {
         result.push(Object.assign({}, tag));
     }
 
+    result.sort((x, y) => x.title.localeCompare(y.title));
+
     return Promise.resolve(result);
 }
 

@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import config from './config';
 import routes from './routes/routes';
 import logger from './logger';
+import pathHelper from './helpers/pathHelper';
 
 const app = express();
 
@@ -33,8 +34,7 @@ function initExpress() {
     app.use(bodyParser.json()); // get information from html forms
     app.use(bodyParser.urlencoded({extended: true}));
 
-    //TODO add
-    //app.use('/static', express.static(pathHelper.getRelative('../client/build/static')));
+    app.use('/static', express.static(pathHelper.getClientRelative('/static')));
 
     app.use(cors());
 }

@@ -6,6 +6,7 @@
   "dependencies": {
   },
   "scripts": {
-    "watch": "cd client && npm start"
+    "watch": "cd client && npm start",
+    "package": "node ./tasks/package.js"
   }
 }

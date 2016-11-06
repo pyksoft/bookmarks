@@ -1,7 +1,8 @@
 import * as jsonfile from 'jsonfile';
 import helper from './repositoryHelper';
+import pathHelper from '../helpers/pathHelper';
 
-const dbPath = './server/data/db.json';
+const dbPath = pathHelper.getDataRelative('db.json');
 let jsonData = jsonfile.readFileSync(dbPath);
 
 export default {
@@ -182,6 +183,8 @@ function getTags() {
     for (let tag of jsonData.tags) {
         result.push(Object.assign({}, tag));
     }
+
+    result.sort((x, y) => x.title.localeCompare(y.title));
 
     return Promise.resolve(result);
 }

@@ -1,5 +1,6 @@
 import * as jsonfile from 'jsonfile';
-const settingsPath = './server/data/user_settings/default.json';
+import pathHelper from './pathHelper';
+const settingsPath = pathHelper.getDataRelative('user_settings/default.json');
 
 export default {
     getValue,
