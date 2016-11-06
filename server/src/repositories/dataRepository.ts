@@ -1,9 +1,5 @@
-import * as jsonfile from 'jsonfile';
-import helper from './repositoryHelper';
-import pathHelper from '../helpers/pathHelper';
-
-const dbPath = pathHelper.getDataRelative('db.json');
-let jsonData = jsonfile.readFileSync(dbPath);
+import cacheHelper from './cacheHelper';
+import storageHelper from './storageHelper';
 
 export default {
     getBookmarks,
@@ -16,33 +12,27 @@ export default {
     getTags,
     deleteTag,
     saveTag,
-    exportBookmarks,
-    importBrowserBookmarks,
-    importBackupBookmarks
+    importBrowserBookmarks
 }
 
-function saveData() {
-    return new Promise((resolve, reject) => {
-        jsonfile.writeFile(dbPath, jsonData, function (err) {
-            if (err) return reject(err);
+let jsonData: any = storageHelper.readDataSync();
 
-            return resolve(null);
-        })
-    });
+function saveData() {
+    return storageHelper.saveData(jsonData);
 }
 
 function getBookmarks(searchQuery) {
     let bookmarks = filterBookmarks(jsonData.bookmarks, searchQuery.searchMode, searchQuery.searchTags);
 
-    bookmarks = helper.searchList(bookmarks, searchQuery.searchStr, ['title', 'url']);
+    bookmarks = cacheHelper.searchList(bookmarks, searchQuery.searchStr, ['title', 'url']);
 
-    bookmarks = helper.sortList(bookmarks, searchQuery.sortBy, searchQuery.sortAsc, [
+    bookmarks = cacheHelper.sortList(bookmarks, searchQuery.sortBy, searchQuery.sortAsc, [
         {name: 'title', type: 'string'},
         {name: 'creationDate', type: 'date'},
         {name: 'lastEditDate', type: 'date'}
     ]);
 
-    let result = helper.getPage(bookmarks, searchQuery.activePage, searchQuery.pageSize);
+    let result = cacheHelper.getPage(bookmarks, searchQuery.activePage, searchQuery.pageSize);
 
     result = generateBookmarks(result);
 
@@ -81,7 +71,7 @@ function addBookmark(bookmark) {
 
     let newBookmark = Object.assign({}, bookmark, {tags: tagIds});
 
-    helper.addToList(jsonData.bookmarks, newBookmark);
+    cacheHelper.addToList(jsonData.bookmarks, newBookmark);
 
     return saveData();
 }
@@ -190,10 +180,10 @@ function getTags() {
 }
 
 function deleteTag(id) {
-    helper.deleteFromList(jsonData.tags, (tag) => tag.id === id);
+    cacheHelper.deleteFromList(jsonData.tags, (tag) => tag.id === id);
 
     for (let bookmark of jsonData.bookmarks) {
-        helper.deleteFromList(bookmark.tags, (tagId) => tagId === id);
+        cacheHelper.deleteFromList(bookmark.tags, (tagId) => tagId === id);
     }
 
     return saveData();
@@ -208,7 +198,7 @@ function saveTag(tag) {
 }
 
 function addTag(tag) {
-    helper.addToList(jsonData.tags, tag);
+    cacheHelper.addToList(jsonData.tags, tag);
 
     return saveData();
 }
@@ -252,30 +242,6 @@ function filterBookmarks(list, mode, tags) {
     }
 
     return result;
-}
-
-function exportBookmarks(filePath) {
-    return new Promise((resolve, reject) => {
-        jsonfile.writeFile(filePath, jsonData, function (err) {
-            if (err) return reject(err);
-
-            return resolve(null);
-        })
-    });
-}
-
-function importBackupBookmarks(filePath) {
-    const importData = jsonfile.readFileSync(filePath);
-
-    return new Promise((resolve, reject) => {
-        jsonfile.writeFile(dbPath, importData, function (err) {
-            if (err) return reject(err);
-
-            jsonData = jsonfile.readFileSync(dbPath);
-
-            return resolve(null);
-        })
-    });
 }
 
 function importBrowserBookmarks(filePath) {

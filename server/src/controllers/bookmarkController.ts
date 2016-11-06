@@ -10,8 +10,6 @@ export default {
     deleteBookmarks,
     statistic,
     importBrowserBookmarks,
-    importBackupBookmarks,
-    exportBookmarks,
     addTagsForMultipleBookmarks,
     restoreBookmark,
     changeDbPath,
@@ -90,30 +88,6 @@ function importBrowserBookmarks(req, res) {
     let filePath = req.body.filePath;
 
     dataRepository.importBrowserBookmarks(filePath)
-        .then(() => {
-            return helper.sendData({}, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
-}
-
-function importBackupBookmarks(req, res) {
-    let filePath = req.body.filePath;
-
-    dataRepository.importBackupBookmarks(filePath)
-        .then(() => {
-            return helper.sendData({}, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
-}
-
-function exportBookmarks(req, res) {
-    let filePath = req.body.filePath;
-
-    dataRepository.exportBookmarks(filePath)
         .then(() => {
             return helper.sendData({}, res);
         })

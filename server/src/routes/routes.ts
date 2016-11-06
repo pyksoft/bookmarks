@@ -13,8 +13,6 @@ function initRoutes(app) {
     app.put('/api/deleteMultipleBookmarks', bookmarkController.deleteBookmarks);
     app.get('/api/statistic', bookmarkController.statistic);
     app.post('/api/import/browserBookmarks', bookmarkController.importBrowserBookmarks);
-    app.post('/api/import/backupBookmarks', bookmarkController.importBackupBookmarks);
-    app.post('/api/export/bookmarks', bookmarkController.exportBookmarks);
     app.put('/api/addTagsForMultipleBookmarks', bookmarkController.addTagsForMultipleBookmarks);
     app.post('/api/restoreBookmark', bookmarkController.restoreBookmark);
 
