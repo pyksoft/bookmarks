@@ -27,3 +27,8 @@ declare module 'jsonfile' {
     var x: any;
     export = x;
 }
+
+declare module 'opn' {
+    var x: any;
+    export = x;
+}

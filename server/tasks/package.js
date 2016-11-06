@@ -5,7 +5,7 @@ const json = require('rollup-plugin-json');
 const fs = require('fs');
 
 rollup({
-    entry: './build/src/startServer.js',
+    entry: './build/src/app.js',
     dest: 'package.js',
     plugins: [
         json({}),
@@ -37,13 +37,13 @@ rollup({
     ]
 })
 .then((bundle) => {
-    var result = bundle.generate({
+    var bundle = bundle.generate({
         // output format - 'amd', 'cjs', 'es', 'iife', 'umd'
         format: 'cjs'
     });
 
-    fs.writeFileSync('./build/server.js', result.code);
+    fs.writeFileSync('./build/app.js', bundle.code);
 })
 .then(() => {
-    console.log("Successful build!")
+    console.log("Server code was successfully packaged!")
 });

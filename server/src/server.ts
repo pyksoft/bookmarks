@@ -15,7 +15,7 @@ export default {
     start
 };
 
-function start(options) {
+function start(port) {
     initExpress();
 
     routes.init(app);
@@ -23,8 +23,10 @@ function start(options) {
     //should be after routes.init
     initErrorHandling(app);
 
-    app.listen(config.port, function () {
-        console.log(`Server is listening on port ${config.port}!`);
+    return new Promise((resolve, reject) => {
+        app.listen(port, () => {
+            return resolve(port);
+        });
     });
 }
 
