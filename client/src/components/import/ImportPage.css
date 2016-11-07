@@ -5,5 +5,14 @@
 
 #import-div .import-row {
     text-align: right;
-    margin-top: 8px;
+    margin-top: 20px;
+}
+
+#drop-zone > div:first-child {
+    width: 150px!important;
+    height: 150px!important;
+}
+
+#import-div #drop-message {
+    padding: 8px;
 }

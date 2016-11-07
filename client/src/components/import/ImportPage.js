@@ -49,23 +49,25 @@ class ImportPage extends Component {
         return (
             <div id="import-div">
                 <div className="col-xs-12 form-group">
-                    <div className="col-xs-5 import-row">
+                    <div className="col-xs-4 import-row">
                         From browser bookmarks - bookmarks will be merged
                     </div>
-                    <div className="col-xs-3 col-sm-height">
-                        <Dropzone onDrop={this.onDrop} multiple={false}>
-                            <div>Try dropping some files here, or click to select files to upload.</div>
-                        </Dropzone>
 
+                    <div className="col-xs-3 col-sm-height" id="drop-zone">
+                        <Dropzone onDrop={this.onDrop} multiple={false}>
+                            <div id="drop-message">Try dropping some files here, or click to select files to upload.</div>
+                        </Dropzone>
                     </div>
-                    <div className="col-xs-4 col-sm-height">
-                        {this.state.fileToImport &&
-                        <div>
-                            <Button onClick={this.importBookmarks}>Import</Button>
+
+                </div>
+
+                <div className="col-xs-12 form-group">
+                    {this.state.fileToImport &&
+                        <div className="col-xs-5 import-row">
                             {this.state.fileToImport.name}
+                            <Button onClick={this.importBookmarks} style={{marginLeft: 65}}>Import</Button>
                         </div>
-                        }
-                    </div>
+                    }
                 </div>
 
                 <div className={resultClass}>
