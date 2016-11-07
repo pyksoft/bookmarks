@@ -1,7 +1,6 @@
 import helper from './_controllerHelper';
-import * as path from 'path';
 import dataRepository from '../repositories/dataRepository';
-import userSettingsHelper from '../helpers/userSettingsHelper';
+import importRepository from '../repositories/importRepository';
 
 export default {
     getBookmarks,
@@ -11,9 +10,7 @@ export default {
     statistic,
     importBrowserBookmarks,
     addTagsForMultipleBookmarks,
-    restoreBookmark,
-    changeDbPath,
-    getDbPath
+    restoreBookmark
 };
 
 function getBookmarks(req, res) {
@@ -84,16 +81,14 @@ function statistic(req, res) {
         });
 }
 
-function importBrowserBookmarks(req, res) {
-    let filePath = req.body.filePath;
+async function importBrowserBookmarks(req, res) {
+    try {
+        let importResults = await importRepository.importBrowserBookmarks(req.file.buffer);
 
-    dataRepository.importBrowserBookmarks(filePath)
-        .then(() => {
-            return helper.sendData({}, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
+        return helper.sendData(importResults, res);
+    } catch (err) {
+        return helper.sendFailureMessage(err, res);
+    }
 }
 
 function addTagsForMultipleBookmarks(req, res) {
@@ -119,23 +114,4 @@ function restoreBookmark(req, res) {
         .catch((err) => {
             return helper.sendFailureMessage(err, res);
         });
-}
-
-function changeDbPath(req, res) {
-    let filePath = req.body.filePath;
-
-    userSettingsHelper.setValue('dbPath', filePath);
-
-    return helper.sendData({}, res);
-}
-
-function getDbPath(req, res) {
-    let dbPath = userSettingsHelper.getValue('dbPath');
-
-    let defaultPathPart = userSettingsHelper.getValue('defaultDbPath');
-
-    let rootPath = path.join(__dirname, '../../..');
-    let defaultDbPath = path.join(rootPath, 'data/' + defaultPathPart);
-
-    return helper.sendData({dbPath, defaultDbPath}, res);
 }

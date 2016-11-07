@@ -3,11 +3,12 @@ import pathHelper from '../helpers/pathHelper';
 import * as fs from 'fs';
 
 export default {
-    readDataSync,
+    readData,
     saveData
 }
 
 const dbPath = pathHelper.getDataRelative('db.json');
+let jsonData = readDataSync();
 
 function readDataSync() {
     try {
@@ -23,10 +24,16 @@ function readDataSync() {
     return jsonfile.readFileSync(dbPath);
 }
 
+function readData(){
+    return jsonData;
+}
+
 function saveData(data) {
     return new Promise((resolve, reject) => {
         jsonfile.writeFile(dbPath, data, function (err) {
             if (err) return reject(err);
+
+            jsonData = data;
 
             return resolve(null);
         })

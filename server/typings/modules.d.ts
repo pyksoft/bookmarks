@@ -32,3 +32,13 @@ declare module 'opn' {
     var x: any;
     export = x;
 }
+
+declare module 'multer' {
+    var x: any;
+    export = x;
+}
+
+declare module 'parse5' {
+    var x: any;
+    export = x;
+}

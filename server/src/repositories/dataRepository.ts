@@ -11,14 +11,19 @@ export default {
     getStatistic,
     getTags,
     deleteTag,
-    saveTag,
-    importBrowserBookmarks
+    saveTag
 }
 
-let jsonData: any = storageHelper.readDataSync();
+let jsonData: any = storageHelper.readData();
 
 function saveData() {
     return storageHelper.saveData(jsonData);
+}
+
+function getAllBookmarks() {
+    let result = generateBookmarks(jsonData.bookmarks);
+
+    return Promise.resolve(result);
 }
 
 function getBookmarks(searchQuery) {
@@ -242,8 +247,4 @@ function filterBookmarks(list, mode, tags) {
     }
 
     return result;
-}
-
-function importBrowserBookmarks(filePath) {
-    return Promise.resolve(null);
 }

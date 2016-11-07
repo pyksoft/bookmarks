@@ -11,7 +11,6 @@ class App extends Component {
                 {page: 'Bookmarks', icon: 'fa-home'},
                 {page: 'Tags', icon: 'fa-tags'},
                 {page: 'Import', icon: 'fa-download'},
-                {page: 'Settings', icon: 'fa-cog'},
                 {page: 'Help', icon: 'fa-info-circle'}
             ]
         };
