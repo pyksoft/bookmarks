@@ -33,12 +33,12 @@ declare module 'opn' {
     export = x;
 }
 
-declare module 'multer' {
+declare module 'parse5' {
     var x: any;
     export = x;
 }
 
-declare module 'parse5' {
+declare module 'multiparty' {
     var x: any;
     export = x;
 }

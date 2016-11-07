@@ -1,6 +1,7 @@
 import helper from './_controllerHelper';
 import dataRepository from '../repositories/dataRepository';
 import importRepository from '../repositories/importRepository';
+import * as multiparty from 'multiparty';
 
 export default {
     getBookmarks,
@@ -83,12 +84,28 @@ function statistic(req, res) {
 
 async function importBrowserBookmarks(req, res) {
     try {
-        let importResults = await importRepository.importBrowserBookmarks(req.file.buffer);
+        let files: any = await parseFiles(req);
+
+        let filePath = files.bookmarks[0].path;
+
+        let importResults = await importRepository.importBrowserBookmarks(filePath);
 
         return helper.sendData(importResults, res);
     } catch (err) {
         return helper.sendFailureMessage(err, res);
     }
+}
+
+function parseFiles(req) {
+    return new Promise((resolve, reject) => {
+        var form = new multiparty.Form();
+
+        form.parse(req, function (err, fields, files) {
+            if (err) return reject(err);
+
+            return resolve(files);
+        });
+    });
 }
 
 function addTagsForMultipleBookmarks(req, res) {

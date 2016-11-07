@@ -2,18 +2,21 @@ import * as parser from 'parse5';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import storageHelper from './storageHelper';
+import * as fs from 'fs';
 
 export default {
     importBrowserBookmarks
 };
 
-async function importBrowserBookmarks(fileData) {
+async function importBrowserBookmarks(filePath) {
     let result = {
         added: 0,
         skipped: 0
     };
 
-    let htmlDoc = parser.parse(fileData.toString('utf8'));
+    let fileData = fs.readFileSync(filePath, 'utf8');
+
+    let htmlDoc = parser.parse(fileData);
 
     let htmlBody = findNode(htmlDoc, (node) => {
         return node.tagName === 'body';

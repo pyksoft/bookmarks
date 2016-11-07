@@ -1,10 +1,6 @@
 import homeController from '../controllers/homeController';
 import bookmarkController from '../controllers/bookmarkController';
 import tagController from '../controllers/tagController';
-import * as multer from 'multer';
-
-let storage = multer.memoryStorage();
-let upload = multer({ storage: storage });
 
 export default {
     init: initRoutes
@@ -23,7 +19,7 @@ function initRoutes(app) {
     app.delete('/api/tag/:id', tagController.deleteTag);
     app.post('/api/saveTag', tagController.saveTag);
 
-    app.post('/api/import/browserBookmarks', upload.single('bookmarks'), bookmarkController.importBrowserBookmarks);
+    app.post('/api/import/browserBookmarks', bookmarkController.importBrowserBookmarks);
 
     //all other routes are rendered as home (for client side routing)
     app.get('*', homeController.home);
