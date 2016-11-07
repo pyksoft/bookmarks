@@ -7,6 +7,7 @@ import SaveTag from './SaveTag';
 import './TagsList.css';
 import apiService from '../../services/apiService';
 import toastr from 'toastr';
+import classnames from 'classnames';
 
 class TagsList extends Component {
     constructor(props) {
@@ -104,9 +105,19 @@ class TagsList extends Component {
     }
 
     render() {
-        if (!this.anyTags) return (
-            <div id="info-message">You do not have any tags.</div>
-        );
+        let bodyHeaderClass = classnames({
+            'tag-list-body-header': true,
+            'display-none': !this.anyTags
+        });
+
+        let bodyClass = classnames({
+            'tag-list-body': true,
+            'display-none': !this.anyTags
+        });
+
+        let messageClass = classnames({
+            'display-none': this.anyTags
+        });
 
         let deleteConfirmVisible = this.state.tagToDeleteId ? true : false;
         let editTagVisible = this.state.tagToEdit ? true : false;
@@ -121,7 +132,7 @@ class TagsList extends Component {
                     />
                 </div>
 
-                <div className="tag-list-body-header">
+                <div className={bodyHeaderClass}>
                     <div className="tag-row">
                         <div className="tag-cell title">Title</div>
                         <div className="tag-cell description">Description</div>
@@ -129,7 +140,7 @@ class TagsList extends Component {
                     </div>
                 </div>
 
-                <div className="tag-list-body">
+                <div className={bodyClass}>
                     {
                         this.state.tags.map(tag => {
                             return <TagItem key={tag.id}
@@ -140,6 +151,8 @@ class TagsList extends Component {
                         })
                     }
                 </div>
+
+                <div id="info-message" className={messageClass}>You do not have any tags.</div>
 
                 <Confirm visible={deleteConfirmVisible} action={this.deleteTag} close={this.cancelDeleteTag}/>
 
