@@ -4,10 +4,15 @@ export default {
 };
 
 function sendFailureMessage(error, res) {
-    res.send({'status': 'failure', message: error});
+    res.send({
+        status: 'failure',
+        message: error
+    });
 }
 
 function sendData(data, res) {
-    data.status = 'success';
-    res.send(data);
+    res.send({
+        status: 'ok',
+        data: data
+    });
 }

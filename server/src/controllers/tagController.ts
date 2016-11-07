@@ -11,7 +11,7 @@ export default {
 function getTags(req, res) {
     dataRepository.getTags()
         .then((tags) => {
-            return helper.sendData({tags}, res);
+            return helper.sendData(tags, res);
         })
         .catch((err) => {
             return helper.sendFailureMessage(err, res);

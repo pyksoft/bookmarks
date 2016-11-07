@@ -12,7 +12,8 @@ export default {
     getStatistic,
     getTags,
     deleteTag,
-    saveTag
+    saveTag,
+    importBookmarks
 }
 
 function saveData() {
@@ -240,4 +241,8 @@ function filterBookmarks(list, mode, tags) {
     }
 
     return result;
+}
+
+function importBookmarks(bookmarksFile) {
+    throw new Error('Operation is not implemented');
 }

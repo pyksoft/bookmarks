@@ -41,27 +41,13 @@ class ImportPage extends Component {
         }
     }
 
-    importBookmarks() {
-        let data = new FormData();
-        data.append('bookmarks', this.state.fileToImport);
+    async importBookmarks() {
+        let importResults = await apiService.importBookmarks(this.state.fileToImport);
 
-        let request = new Request('/api/import/browserBookmarks', {
-            headers: new Headers({
-                //'Content-Type': 'application/json'
-            }),
-            method: 'POST',
-            body: data
-        });
-
-        return fetch(request)
-            .then((response) => {
-                //checkStatus(response);
-                console.log('ok');
-            })
-            .catch((err) => {
-                //handleError(err);
-                console.log('error');
-            });
+        this.setState({
+            added: importResults.added,
+            skipped: importResults.skipped
+        })
     }
 
     render() {

@@ -1,11 +1,13 @@
 import toastr from 'toastr';
 
 export default {
+    checkStatus,
+    handleError,
     get: httpGet,
     post: httpPost,
     patch: httpPatch,
     put: httpPut,
-    delete: httpDelete
+    delete: httpDelete,
 }
 
 function httpGet(url, queryParams) {
@@ -14,6 +16,13 @@ function httpGet(url, queryParams) {
             checkStatus(response);
 
             return response.json();
+        })
+        .then((result) => {
+            if (result.status === 'failure') {
+                throw new Error(result.message);
+            }
+
+            return result.data;
         })
         .catch((err) => {
             handleError(err);

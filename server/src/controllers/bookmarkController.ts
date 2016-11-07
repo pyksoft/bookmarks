@@ -29,7 +29,7 @@ function getBookmarks(req, res) {
 
     dataRepository.getBookmarks(searchQuery)
         .then((data) => {
-            return helper.sendData({data}, res);
+            return helper.sendData(data, res);
         })
         .catch((err) => {
             return helper.sendFailureMessage(err, res);

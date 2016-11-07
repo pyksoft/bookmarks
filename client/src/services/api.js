@@ -15,8 +15,7 @@ export default {
     exportBookmarks,
     importBrowserBookmarks,
     importBackupBookmarks,
-    updateDbPath,
-    getDbPath
+    importBookmarks
 }
 
 function getBookmarks(searchQuery) {
@@ -33,8 +32,8 @@ function getBookmarks(searchQuery) {
     return httpHelper.get('/api/bookmarks', data)
         .then((jsonData) => {
             return {
-                total: jsonData.data.total,
-                dataItems: jsonData.data.dataItems
+                total: jsonData.total,
+                dataItems: jsonData.dataItems
             }
         });
 }
@@ -65,17 +64,11 @@ function addTagsForMultipleBookmarks(ids, selectedTags) {
 }
 
 function getStatistic() {
-    return httpHelper.get('/api/statistic')
-        .then((jsonData) => {
-            return jsonData.data;
-        });
+    return httpHelper.get('/api/statistic');
 }
 
 function getTags() {
-    return httpHelper.get('/api/tags')
-        .then((jsonData) => {
-            return jsonData.tags;
-        });
+    return httpHelper.get('/api/tags');
 }
 
 function deleteTag(id) {
@@ -98,10 +91,29 @@ function importBackupBookmarks(filePath) {
     return httpHelper.post('/api/import/backupBookmarks', {filePath});
 }
 
-function updateDbPath(filePath) {
-    return httpHelper.post('/api/settings/changeDbPath', {filePath});
-}
+function importBookmarks(bookmarksFile) {
+    let data = new FormData();
+    data.append('bookmarks', bookmarksFile);
 
-function getDbPath() {
-    return httpHelper.get('/api/settings/getDbPath');
+    let url = '/api/import/browserBookmarks';
+    let request = new Request(url, {
+        method: 'POST',
+        body: data
+    });
+
+    return fetch(request)
+        .then((response) => {
+            httpHelper.checkStatus(response);
+            return response.json();
+        })
+        .then((result) => {
+            if (!result.status === 'ok') {
+                throw new Error(result.message);
+            }
+
+            return result.data;
+        })
+        .catch((err) => {
+            httpHelper.handleError(err);
+        });
 }
