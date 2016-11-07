@@ -1,43 +1,42 @@
 import helper from './_controllerHelper';
 import dataRepository from '../repositories/dataRepository';
 
-
 export default {
     getTags,
     deleteTag,
     saveTag
 };
 
-function getTags(req, res) {
-    dataRepository.getTags()
-        .then((tags) => {
-            return helper.sendData(tags, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
+async function getTags(req, res) {
+    try {
+        let tags = await dataRepository.getTags();
+
+        return helper.sendData(tags, res);
+    } catch (err) {
+        return helper.sendFailureMessage(err, res);
+    }
 }
 
-function deleteTag(req, res) {
-    let tagId = parseInt(req.params.id);
+async function deleteTag(req, res) {
+    try {
+        let tagId = parseInt(req.params.id);
 
-    dataRepository.deleteTag(tagId)
-        .then(() => {
-            return helper.sendData({}, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
+        await dataRepository.deleteTag(tagId);
+
+        return helper.sendData({}, res);
+    } catch (err) {
+        return helper.sendFailureMessage(err, res);
+    }
 }
 
-function saveTag(req, res) {
-    let tag = req.body.tag;
-    
-    dataRepository.saveTag(tag)
-        .then(() => {
-            return helper.sendData({}, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
+async function saveTag(req, res) {
+    try {
+        let tag = req.body.tag;
+
+        await dataRepository.saveTag(tag);
+
+        return helper.sendData({}, res);
+    } catch (err) {
+        return helper.sendFailureMessage(err, res);
+    }
 }

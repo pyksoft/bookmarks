@@ -90,17 +90,16 @@ class BookmarksList extends Component {
         }
     }
 
-    addTagForBookmarks(selectedTags) {
-        apiService.addTagsForMultipleBookmarks(this.state.selectedBookmarks, selectedTags)
-            .then(() => {
-                toastr.success('Tags were added');
+    async addTagForBookmarks(selectedTags) {
+        await apiService.addTagsForMultipleBookmarks(this.state.selectedBookmarks, selectedTags);
 
-                this.loadData();
+        toastr.success('Tags were added');
 
-                this.setState({
-                    showAddTagModal: false
-                });
-            });
+        await this.loadData();
+
+        this.setState({
+            showAddTagModal: false
+        });
     }
 
     displayAddTagModal() {
@@ -115,19 +114,18 @@ class BookmarksList extends Component {
         });
     }
 
-    deleteBookmarks() {
-        apiService.deleteMultipleBookmarks(this.state.selectedBookmarks)
-            .then(() => {
-                toastr.success('Bookmarks were deleted');
+    async deleteBookmarks() {
+        await apiService.deleteMultipleBookmarks(this.state.selectedBookmarks);
 
-                this.loadData();
+        toastr.success('Bookmarks were deleted');
 
-                this.setState({
-                    showConfirm: false,
-                    selectedBookmarks: [],
-                    allSelected: false
-                });
-            });
+        await this.loadData();
+
+        this.setState({
+            showConfirm: false,
+            selectedBookmarks: [],
+            allSelected: false
+        });
     }
 
     confirmDeleteBookmarks() {
@@ -142,17 +140,16 @@ class BookmarksList extends Component {
         });
     }
 
-    deleteBookmark() {
-        apiService.deleteBookmark(this.state.bookmarkToDeleteId)
-            .then(() => {
-                toastr.success('Bookmark was deleted');
+    async deleteBookmark() {
+        await apiService.deleteBookmark(this.state.bookmarkToDeleteId);
 
-                this.loadData();
+        toastr.success('Bookmark was deleted');
 
-                this.setState({
-                    bookmarkToDeleteId: null
-                });
-            });
+        await this.loadData();
+
+        this.setState({
+            bookmarkToDeleteId: null
+        });
     }
 
     cancelDeleteBookmark() {
@@ -167,17 +164,16 @@ class BookmarksList extends Component {
         });
     }
 
-    saveBookmark() {
-        apiService.saveBookmark(this.state.bookmarkToEdit)
-            .then(() => {
-                toastr.success('Bookmark was saved');
+    async saveBookmark() {
+        await apiService.saveBookmark(this.state.bookmarkToEdit);
+        
+        toastr.success('Bookmark was saved');
 
-                this.loadData();
+        await this.loadData();
 
-                this.setState({
-                    bookmarkToEdit: null
-                });
-            });
+        this.setState({
+            bookmarkToEdit: null
+        });
     }
 
     cancelEditBookmark() {
@@ -199,17 +195,16 @@ class BookmarksList extends Component {
         return this.setState({bookmarkToEdit: bookmark});
     }
 
-    restoreBookmark() {
-        apiService.restoreBookmark(this.state.bookmarkToRestore)
-            .then(() => {
-                toastr.success('Bookmark was restored');
+    async restoreBookmark() {
+        await apiService.restoreBookmark(this.state.bookmarkToRestore);
+        
+        toastr.success('Bookmark was restored');
 
-                this.loadData();
+        await this.loadData();
 
-                this.setState({
-                    bookmarkToRestore: null
-                });
-            });
+        this.setState({
+            bookmarkToRestore: null
+        });
     }
 
     cancelRestoreBookmark() {

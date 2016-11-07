@@ -26,13 +26,12 @@ class TagsList extends Component {
         this.loadData();
     }
 
-    loadData() {
-        apiService.getTags()
-            .then((tags) => {
-                this.setState({
-                    tags
-                });
-            });
+    async loadData() {
+        let tags = await apiService.getTags();
+        
+        this.setState({
+            tags
+        });
     }
 
     addTag() {
@@ -61,30 +60,28 @@ class TagsList extends Component {
         return this.setState({tagToEdit: tag});
     }
 
-    saveTag() {
-        apiService.saveTag(this.state.tagToEdit)
-            .then(() => {
-                toastr.success('Tag was saved');
+    async saveTag() {
+        await apiService.saveTag(this.state.tagToEdit);
+        
+        toastr.success('Tag was saved');
 
-                this.loadData();
+        await this.loadData();
 
-                this.setState({
-                    tagToEdit: null
-                });
-            });
+        this.setState({
+            tagToEdit: null
+        });
     }
 
-    deleteTag() {
-        apiService.deleteTag(this.state.tagToDeleteId)
-            .then(() => {
-                toastr.success('Tag was deleted');
+    async deleteTag() {
+        await apiService.deleteTag(this.state.tagToDeleteId);
+        
+        toastr.success('Tag was deleted');
 
-                this.setState({
-                    tagToDeleteId: null
-                });
+        this.setState({
+            tagToDeleteId: null
+        });
 
-                this.loadData();
-            })
+        await this.loadData();
     }
 
     confirmDeleteTag(id) {

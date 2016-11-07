@@ -85,19 +85,18 @@ class SaveBookmark extends Component {
         return this.setState({tagToEdit: tag});
     }
 
-    saveTag() {
-        apiService.saveTag(this.state.tagToEdit)
-            .then(() => {
-                toastr.success('Tag was saved');
+    async saveTag() {
+        await apiService.saveTag(this.state.tagToEdit);
 
-                if (this.props.onLoad) {
-                    this.props.onLoad();
-                }
+        toastr.success('Tag was saved');
 
-                this.setState({
-                    tagToEdit: null
-                });
-            });
+        if (this.props.onLoad) {
+            this.props.onLoad();
+        }
+
+        this.setState({
+            tagToEdit: null
+        });
     }
 
     render() {

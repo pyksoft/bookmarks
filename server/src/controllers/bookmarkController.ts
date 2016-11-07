@@ -14,72 +14,73 @@ export default {
     restoreBookmark
 };
 
-function getBookmarks(req, res) {
-    let data = req.query;
+async function getBookmarks(req, res) {
+    try {
+        let data = req.query;
 
-    let searchQuery = {
-        activePage: parseInt(data.activePage),
-        sortBy: data.sortBy,
-        sortAsc: data.sortAsc === 'true',
-        searchStr: data.searchStr,
-        searchMode: data.searchMode,
-        searchTags: JSON.parse(data.searchTags),
-        pageSize: parseInt(data.pageSize)
-    };
+        let searchQuery = {
+            activePage: parseInt(data.activePage),
+            sortBy: data.sortBy,
+            sortAsc: data.sortAsc === 'true',
+            searchStr: data.searchStr,
+            searchMode: data.searchMode,
+            searchTags: JSON.parse(data.searchTags),
+            pageSize: parseInt(data.pageSize)
+        };
 
-    dataRepository.getBookmarks(searchQuery)
-        .then((data) => {
-            return helper.sendData(data, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
+        let result = await dataRepository.getBookmarks(searchQuery);
+
+        return helper.sendData(result, res);
+
+    } catch (err) {
+        return helper.sendFailureMessage(err, res);
+    }
 }
 
-function deleteBookmark(req, res) {
-    let bookmarkId = parseInt(req.params.id);
+async function deleteBookmark(req, res) {
+    try {
+        let bookmarkId = parseInt(req.params.id);
 
-    dataRepository.deleteBookmark(bookmarkId)
-        .then(() => {
-            return helper.sendData({}, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
+        await dataRepository.deleteBookmark(bookmarkId);
+
+        return helper.sendData({}, res);
+    } catch (err) {
+        return helper.sendFailureMessage(err, res);
+    }
 }
 
-function saveBookmark(req, res) {
-    let bookmark = req.body.bookmark;
+async function saveBookmark(req, res) {
+    try {
+        let bookmark = req.body.bookmark;
 
-    dataRepository.saveBookmark(bookmark)
-        .then(() => {
-            return helper.sendData({}, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
+        await dataRepository.saveBookmark(bookmark);
+
+        return helper.sendData({}, res);
+    } catch (err) {
+        return helper.sendFailureMessage(err, res);
+    }
 }
 
-function deleteBookmarks(req, res) {
-    let ids = req.body.ids;
+async function deleteBookmarks(req, res) {
+    try {
+        let ids = req.body.ids;
 
-    dataRepository.deleteMultipleBookmarks(ids)
-        .then(() => {
-            return helper.sendData({}, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
+        await dataRepository.deleteMultipleBookmarks(ids);
+
+        return helper.sendData({}, res);
+    } catch (err) {
+        return helper.sendFailureMessage(err, res);
+    }
 }
 
-function statistic(req, res) {
-    dataRepository.getStatistic()
-        .then((data) => {
-            return helper.sendData({data}, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
+async function statistic(req, res) {
+    try {
+        let stat = await dataRepository.getStatistic();
+
+        return helper.sendData(stat, res);
+    } catch (err) {
+        return helper.sendFailureMessage(err, res);
+    }
 }
 
 async function importBrowserBookmarks(req, res) {
@@ -108,27 +109,27 @@ function parseFiles(req) {
     });
 }
 
-function addTagsForMultipleBookmarks(req, res) {
-    let ids = req.body.ids;
-    let selectedTags = req.body.selectedTags;
+async function addTagsForMultipleBookmarks(req, res) {
+    try {
+        let ids = req.body.ids;
+        let selectedTags = req.body.selectedTags;
 
-    dataRepository.addTagsForMultipleBookmarks(ids, selectedTags)
-        .then(() => {
-            return helper.sendData({}, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
+        await dataRepository.addTagsForMultipleBookmarks(ids, selectedTags);
+
+        return helper.sendData({}, res);
+    } catch (err) {
+        return helper.sendFailureMessage(err, res);
+    }
 }
 
-function restoreBookmark(req, res) {
-    let bookmarkId = req.body.id;
+async function restoreBookmark(req, res) {
+    try {
+        let bookmarkId = req.body.id;
 
-    dataRepository.restoreBookmark(bookmarkId)
-        .then(() => {
-            return helper.sendData({}, res);
-        })
-        .catch((err) => {
-            return helper.sendFailureMessage(err, res);
-        });
+        await dataRepository.restoreBookmark(bookmarkId);
+
+        return helper.sendData({}, res);
+    } catch (err) {
+        return helper.sendFailureMessage(err, res);
+    }
 }

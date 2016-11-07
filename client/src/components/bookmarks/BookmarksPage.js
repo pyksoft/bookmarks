@@ -33,17 +33,16 @@ class BookmarksPage extends Component {
         autoBind(this);
     }
 
-    componentDidMount() {
-        apiService.getTags()
-            .then((tags) => {
-                this.setState({
-                    tags
-                }, () => {
-                    this.loadData();
-                });
+    async componentDidMount() {
+        let tags = await apiService.getTags();
 
-                this.loadStatistic();
-            });
+        this.setState({
+            tags
+        }, () => {
+            this.loadData();
+        });
+
+        await this.loadStatistic();
     }
 
     async loadData() {
@@ -74,27 +73,25 @@ class BookmarksPage extends Component {
         this.loadStatistic();
     }
 
-    loadTags() {
-        apiService.getTags()
-            .then((tags) => {
-                this.setState({
-                    tags
-                });
-            });
+    async loadTags() {
+        let tags = await apiService.getTags();
+
+        this.setState({
+            tags
+        });
     }
 
-    loadStatistic() {
-        apiService.getStatistic()
-            .then((stat) => {
-                this.setState({
-                    stat: {
-                        ...this.state.stat,
-                        totalBookmarksCount: stat.totalBookmarksCount,
-                        taggedBookmarksCount: stat.taggedBookmarksCount,
-                        deletedBookmarksCount: stat.deletedBookmarksCount
-                    }
-                });
-            });
+    async loadStatistic() {
+        let stat = await apiService.getStatistic();
+
+        this.setState({
+            stat: {
+                ...this.state.stat,
+                totalBookmarksCount: stat.totalBookmarksCount,
+                taggedBookmarksCount: stat.taggedBookmarksCount,
+                deletedBookmarksCount: stat.deletedBookmarksCount
+            }
+        });
     }
 
     onPageChange(page) {
