@@ -4,7 +4,6 @@ import classnames from 'classnames';
 import toastr from 'toastr';
 import Dropzone from 'react-dropzone';
 import apiService from '../../services/apiService';
-import settingsService from '../../services/settingsService';
 import './ImportPage.css';
 import {Button} from 'react-bootstrap';
 
@@ -21,18 +20,6 @@ class ImportPage extends Component {
         autoBind(this);
     }
 
-    importAction(from) {
-        let importAction = from === 'browser' ? apiService.importBrowserBookmarks : apiService.importBackupBookmarks;
-
-        // TODO get real path
-        let path = settingsService.importPath;
-
-        importAction(path)
-            .then(() => {
-                toastr.success('Bookmarks was imported successfully');
-            });
-    }
-
     onDrop(acceptedFiles) {
         if (acceptedFiles.length) {
             this.setState({
@@ -44,6 +31,8 @@ class ImportPage extends Component {
     async importBookmarks() {
         let importResults = await apiService.importBookmarks(this.state.fileToImport);
 
+        toastr.success('Bookmarks was imported successfully');
+        
         this.setState({
             added: importResults.added,
             skipped: importResults.skipped
