@@ -15,6 +15,9 @@ function readDataSync() {
         let stat = fs.statSync(dbPath);
     } catch (err) {
         if (err.code === 'ENOENT') {
+
+            console.log(`Cannot open db at ${dbPath}. Generating empty one.`);
+
             jsonfile.writeFileSync(dbPath, getDefaultData())
         } else {
             throw err;

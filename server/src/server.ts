@@ -1,5 +1,5 @@
 import * as express from 'express';
-//import morgan from 'morgan';
+import * as morgan from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as _ from 'lodash';
@@ -31,7 +31,7 @@ function start(port) {
 }
 
 function initExpress() {
-    //if (config.isDevLocal) app.use(morgan('dev')); //log requests
+    if (config.isDevLocal) app.use(morgan('dev')); //log requests
 
     app.use(bodyParser.json()); // get information from html forms
     app.use(bodyParser.urlencoded({extended: true}));

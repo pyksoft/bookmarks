@@ -42,3 +42,13 @@ declare module 'multiparty' {
     var x: any;
     export = x;
 }
+
+declare module 'morgan' {
+    var x: any;
+    export = x;
+}
+
+declare module 'detect-port' {
+    var x: any;
+    export = x;
+}

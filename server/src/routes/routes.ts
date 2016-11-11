@@ -7,6 +7,15 @@ export default {
 };
 
 function initRoutes(app) {
+    initApiRoutes(app);
+
+    app.get('/info', homeController.info);
+
+    //all other routes are rendered as home (for client side routing)
+    app.get('*', homeController.home);
+}
+
+function initApiRoutes(app) {
     app.get('/api/bookmarks', bookmarkController.getBookmarks);
     app.delete('/api/bookmark/:id', bookmarkController.deleteBookmark);
     app.post('/api/saveBookmark', bookmarkController.saveBookmark);
@@ -20,7 +29,5 @@ function initRoutes(app) {
     app.post('/api/saveTag', tagController.saveTag);
 
     app.post('/api/import/browserBookmarks', bookmarkController.importBrowserBookmarks);
-
-    //all other routes are rendered as home (for client side routing)
-    app.get('*', homeController.home);
 }
+
