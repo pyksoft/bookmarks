@@ -52,3 +52,8 @@ declare module 'detect-port' {
     var x: any;
     export = x;
 }
+
+declare module 'axios' {
+    var x: any;
+    export = x;
+}

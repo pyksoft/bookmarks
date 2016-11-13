@@ -5,7 +5,6 @@ import pathHelper from './helpers/pathHelper';
 let config = {
     port: 4088,
     isDevLocal: false,
-    parseAppId: '???',
     appID: 'Bookmarks Archive'
 };
 
@@ -18,7 +17,7 @@ function tryReadConfigFile(fileName) {
     }
 }
 
-let defaultFile = tryReadConfigFile('default.json');
+let defaultFile = tryReadConfigFile('settings.json');
 _.merge(config, defaultFile);
 
 let localFile = tryReadConfigFile('local.json');
