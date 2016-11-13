@@ -12,12 +12,13 @@ import config from './config';
 
 async function start() {
     let isAppRunning = false;
+    let appUrl = `http://localhost:${config.port}`;
 
     let freePort = await detect(config.port);
 
     //port is busy
     if (freePort !== config.port) {
-        isAppRunning = await checkAppIsRunning(config.port);
+        isAppRunning = await checkAppIsRunning(appUrl);
 
         if (!isAppRunning) {
             console.log(`Port ${config.port} is busy. Please, change port in config file.`);
@@ -31,12 +32,21 @@ async function start() {
 
     console.log(`${config.appID} is running on port ${config.port}!`);
 
-    opn('', {app: ['chrome', `--app=http://localhost:${config.port}`]});
+    try {
+        opn('', {app: [getChromeAppName(), `--app=${appUrl}`]});
+    } catch (err) {
+        try {
+            opn(appUrl);
+        } catch(err) {
+            console.log('Cannot open application.');
+            console.log(err);
+        }
+    }
 }
 
-async function checkAppIsRunning(port) {
+async function checkAppIsRunning(appUrl) {
     try {
-        let response = await axios.get(`http://localhost:${port}/info`);
+        let response = await axios.get(`${appUrl}/info`);
         let appInfo = response.data;
 
         if (appInfo && appInfo.data) {
@@ -44,6 +54,17 @@ async function checkAppIsRunning(port) {
         }
     } catch (err) {
         return false;
+    }
+}
+
+function getChromeAppName() {
+    switch (process.platform) {
+        case 'darwin':
+            return 'google chrome';
+        case 'linux':
+            return 'google-chrome';
+        default:
+            return 'chrome';
     }
 }
 
