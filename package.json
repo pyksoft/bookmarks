@@ -2,11 +2,12 @@
   "name": "ba-react",
   "version": "0.1.0",
   "devDependencies": {
+    "fs-extra": "^1.0.0"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
     "watch": "cd client && npm start",
-    "package": "node ./tasks/package.js"
+    "package:server": "cd server && webpack",
+    "package": "npm run package:server && node ./tasks/package.js"
   }
 }

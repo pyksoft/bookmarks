@@ -1,3 +1,5 @@
 .idea/
 npm-debug.log
 server/data/
+package/
+node_modules/
