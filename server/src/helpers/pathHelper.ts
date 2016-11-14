@@ -38,19 +38,19 @@ function getClientRelativePath(...paths: string[]) {
 
 
 function getRootPath() {
-    if (process.env['NODE_ENV'] === "production") {
-        return path.join(__dirname, './');
+    if (isDevLocal()) {
+        return path.join(__dirname, '../../..');
     }
 
-    return path.join(__dirname, '../../..');
+    return path.join(__dirname, './');
 }
 
 function getClientPath() {
-    if (process.env['NODE_ENV'] === "production") {
-        return getRelativePath('./client');
+    if (isDevLocal()) {
+        return getRelativePath('../client/build');
     }
 
-    return getRelativePath('../client/build');
+    return getRelativePath('./client');
 }
 
 function getDataPath() {
@@ -59,4 +59,8 @@ function getDataPath() {
     }
 
     return path.join(rootPath, 'data');
+}
+
+function isDevLocal() {
+    return process.env['NODE_ENV'] === 'development';
 }

@@ -4,7 +4,7 @@ import pathHelper from './helpers/pathHelper';
 
 let config = {
     port: 4088,
-    isDevLocal: false,
+    isDevLocal: process.env['NODE_ENV'] === 'development',
     appID: 'Bookmarks Archive'
 };
 
