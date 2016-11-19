@@ -1,13 +1,18 @@
 import * as jsonfile from 'jsonfile';
 import pathHelper from '../helpers/pathHelper';
 import * as fs from 'fs';
+import config from '../config';
 
 export default {
     readData,
     saveData
 }
 
-const dbPath = pathHelper.getDataRelative('db.json');
+let dbPath = config.dbPath;
+if (!dbPath) {
+    dbPath = pathHelper.getDataRelative('db.json');
+}
+
 let jsonData = readDataSync();
 
 function readDataSync() {

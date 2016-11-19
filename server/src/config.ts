@@ -5,7 +5,8 @@ import pathHelper from './helpers/pathHelper';
 let config = {
     port: 4088,
     isDevLocal: process.env['NODE_ENV'] === 'development',
-    appID: 'Bookmarks Archive'
+    appID: 'Bookmarks Archive',
+    dbPath: ''
 };
 
 function tryReadConfigFile(fileName) {
