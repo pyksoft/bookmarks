@@ -10,10 +10,12 @@ let config = {
 };
 
 function tryReadConfigFile(fileName) {
+    let filePath = pathHelper.getDataRelative('config', fileName);
+
     try {
-        let filePath = pathHelper.getDataRelative('config', fileName);
         return jsonfile.readFileSync(filePath);
     } catch (err) {
+        console.log(`Cannot load settings file ${filePath}`);
         return {};
     }
 }
@@ -21,7 +23,12 @@ function tryReadConfigFile(fileName) {
 let defaultFile = tryReadConfigFile('settings.json');
 _.merge(config, defaultFile);
 
-let localFile = tryReadConfigFile('local.json');
-_.merge(config, localFile);
+if (config.isDevLocal) {
+    let localFile = tryReadConfigFile('local.json');
+    _.merge(config, localFile);
+}
+
+console.log('Config values:');
+console.log(config);
 
 export default config;
