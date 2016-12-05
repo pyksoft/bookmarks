@@ -21,6 +21,20 @@ class SaveBookmark extends Component {
         autoBind(this);
     }
 
+    componentWillMount() {
+        document.onkeyup = this.onKeyDown;
+    }
+
+    componentWillUnmount() {
+        document.onkeyup = null;
+    }
+
+    onKeyDown(e) {
+        if (e.code === 'Enter' && e.ctrlKey) {
+            this.save();
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         let tagsOptions = nextProps.tags.map(tag => ({
             value: tag.id,
@@ -117,7 +131,7 @@ class SaveBookmark extends Component {
 
         return (
             <div>
-                <Modal show={this.props.visible} onHide={this.props.close}>
+                <Modal show={this.props.visible} onHide={this.props.close} keyboard={false}>
                     <Modal.Header closeButton onClick={this.props.close}>
                         <Modal.Title>{title}</Modal.Title>
                     </Modal.Header>

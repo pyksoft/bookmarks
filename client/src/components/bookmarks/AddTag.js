@@ -49,7 +49,7 @@ class AddTag extends Component {
     render() {
         return (
             <div>
-                <Modal show={this.props.visible} onHide={this.close}>
+                <Modal show={this.props.visible} onHide={this.close} keyboard={false}>
                     <Modal.Header closeButton onClick={this.close}>
                         <Modal.Title>Add tag</Modal.Title>
                     </Modal.Header>
