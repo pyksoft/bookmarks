@@ -1,5 +1,5 @@
 {
-  "name": "ba-react",
+  "name": "bookmarks-archive",
   "version": "0.1.0",
   "devDependencies": {
     "fs-extra": "^1.0.0"
