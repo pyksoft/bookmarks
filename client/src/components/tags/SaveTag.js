@@ -44,8 +44,10 @@ class SaveTag extends Component {
     render() {
         if (!this.props.tag) return null;
 
-        let title = this.props.tag.id ? 'Edit tag' : 'Add tag';
-        let btnText = this.props.tag.id ? 'Update' : 'Add';
+        let isNew = this.props.tag.id === undefined;
+
+        let title = isNew ? 'Add tag' : 'Edit tag';
+        let btnText = isNew ? 'Add': 'Update';
         
         return (
             <div>

@@ -118,8 +118,10 @@ class SaveBookmark extends Component {
 
         if (!bookmark) return null;
 
-        let title = bookmark.id ? 'Edit bookmark' : 'Add bookmark';
-        let btnText = bookmark.id ? 'Update' : 'Add';
+        let isNew = bookmark.id === undefined;
+
+        let title = isNew ? 'Add bookmark' : 'Edit bookmark';
+        let btnText = isNew ? 'Add' : 'Update';
 
         let tagIds = bookmark.tags.map(t => t.id);
 

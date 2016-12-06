@@ -48,7 +48,7 @@ function getBookmarks(searchQuery) {
 }
 
 function saveBookmark(bookmark) {
-    if (bookmark.id) {
+    if (bookmark.id !== undefined) {
         return updateBookmark(bookmark);
     } else {
         return addBookmark(bookmark);
@@ -195,7 +195,7 @@ function deleteTag(id) {
 }
 
 function saveTag(tag) {
-    if (tag.id) {
+    if (tag.id !== undefined) {
         return updateTag(tag);
     } else {
         return addTag(tag);
