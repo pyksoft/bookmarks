@@ -131,8 +131,8 @@ class SaveBookmark extends Component {
 
         return (
             <div>
-                <Modal show={this.props.visible} onHide={this.props.close} keyboard={false}>
-                    <Modal.Header closeButton onClick={this.props.close}>
+                <Modal show={this.props.visible} onHide={this.props.close} keyboard={false} backdrop="static">
+                    <Modal.Header closeButton>
                         <Modal.Title>{title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>

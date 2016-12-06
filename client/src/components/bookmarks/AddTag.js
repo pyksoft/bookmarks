@@ -20,6 +20,20 @@ class AddTag extends Component {
         autoBind(this);
     }
 
+    componentWillMount() {
+        document.onkeyup = this.onKeyDown;
+    }
+
+    componentWillUnmount() {
+        document.onkeyup = null;
+    }
+
+    onKeyDown(e) {
+        if (e.code === 'Enter' && e.ctrlKey) {
+            this.save();
+        }
+    }
+
     save() {
         this.props.save(this.state.selectedTags);
 
@@ -49,8 +63,8 @@ class AddTag extends Component {
     render() {
         return (
             <div>
-                <Modal show={this.props.visible} onHide={this.close} keyboard={false}>
-                    <Modal.Header closeButton onClick={this.close}>
+                <Modal show={this.props.visible} onHide={this.close} keyboard={false} backdrop="static">
+                    <Modal.Header closeButton>
                         <Modal.Title>Add tag</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{minHeight: 200}}>

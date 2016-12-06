@@ -49,8 +49,8 @@ class SaveTag extends Component {
         
         return (
             <div>
-                <Modal show={this.props.visible} onHide={this.props.close}>
-                    <Modal.Header closeButton onClick={this.props.close}>
+                <Modal show={this.props.visible} onHide={this.props.close} backdrop="static">
+                    <Modal.Header closeButton>
                         <Modal.Title>{title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{minHeight: 275}}>

@@ -5,8 +5,8 @@ class Confirm extends React.Component {
     render() {
         return (
             <div>
-                <Modal show={this.props.visible} onHide={this.props.close}>
-                    <Modal.Header closeButton onClick={this.props.close}>
+                <Modal show={this.props.visible} onHide={this.props.close} backdrop="static">
+                    <Modal.Header closeButton>
                         <Modal.Title>Confirmation</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
