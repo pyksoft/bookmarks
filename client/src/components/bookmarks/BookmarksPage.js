@@ -51,8 +51,8 @@ class BookmarksPage extends Component {
         let page = this.state.searchQuery.activePage;
         let pageNumber = Math.ceil(data.total / settings.PAGE_SIZE);
 
-        //when delete the last element on the last page
-        if (page > pageNumber) {
+        //when delete the last element on the last page or add first element
+        if (page > pageNumber || (page === 0 && data.total === 1)) {
             page = pageNumber;
 
             return this.setState({

@@ -287,101 +287,112 @@ class BookmarksList extends Component {
             'fa-arrow-up': !this.props.searchQuery.sortAsc
         });
 
-        if (!this.anyBookmarks) return (
-            <div id="message">No bookmarks</div>
-        );
-
         return (
             <div>
-                <div className="bookmark-list-header">
-                    <div className="bookmarks-actions">
-                        <ListAction
-                            action={this.addBookmark}
-                            tooltip="Add new bookmark."
-                            icon="fa-plus"
-                        />
-
-                        <ListAction
-                            action={this.editSelectedBookmark}
-                            tooltip="Edit bookmark"
-                            icon="fa-pencil"
-                            disabled={this.onlyOneSelected}
-                        />
-
-                        <ListAction
-                            action={this.displayAddTagModal}
-                            tooltip="Add tag for multiple bookmarks."
-                            icon="fa-tag"
-                            disabled={this.noSelection}
-                        />
-
-                        <ListAction
-                            action={this.confirmDeleteBookmarks}
-                            tooltip="Delete multiple bookmarks."
-                            icon="fa-trash-o"
-                            disabled={this.noSelection}
-                        />
-                    </div>
-
+                {this.anyBookmarks ? (
                     <div>
-                        <Pagination
-                            bsSize="medium"
-                            first
-                            last
-                            ellipsis
-                            boundaryLinks
-                            maxButtons={8}
-                            items={pageNumber}
-                            activePage={this.props.searchQuery.activePage}
-                            onSelect={this.pageSelection}
-                        />
-                    </div>
+                        <div className="bookmark-list-header">
+                            <div className="bookmarks-actions">
+                                <ListAction
+                                    action={this.addBookmark}
+                                    tooltip="Add new bookmark."
+                                    icon="fa-plus"
+                                />
 
-                    <div id="sort-order">
-                        <ButtonToolbar>
-                            <DropdownButton bsSize="small" title="Sort By:" id="sort-by-dropdown">
-                                {sortByOptions.map(item => {
-                                    return (
-                                        <MenuItem key={item.key} onClick={() => this.sortBy(item.key)}
-                                                  active={this.props.searchQuery.sortBy === item.key}>{item.text}</MenuItem>
-                                    )
-                                })}
-                            </DropdownButton>
-                        </ButtonToolbar>
+                                <ListAction
+                                    action={this.editSelectedBookmark}
+                                    tooltip="Edit bookmark"
+                                    icon="fa-pencil"
+                                    disabled={this.onlyOneSelected}
+                                />
 
-                        <i className={iconClass} style={{marginLeft: 8}} onClick={() => this.sortDirection()} 
-                           aria-hidden="true"></i>
-                    </div>
-                </div>
+                                <ListAction
+                                    action={this.displayAddTagModal}
+                                    tooltip="Add tag for multiple bookmarks."
+                                    icon="fa-tag"
+                                    disabled={this.noSelection}
+                                />
 
-                <div className="bookmark-list-body-header">
-                    <div className="bookmark-row">
-                        <div className="bookmark-cell checkbox">
-                            <input type="checkbox" onChange={this.selectAllBookmarks}
-                                   checked={this.state.allSelected}/>
+                                <ListAction
+                                    action={this.confirmDeleteBookmarks}
+                                    tooltip="Delete multiple bookmarks."
+                                    icon="fa-trash-o"
+                                    disabled={this.noSelection}
+                                />
+                            </div>
+
+                            <div>
+                                <Pagination
+                                    bsSize="medium"
+                                    first
+                                    last
+                                    ellipsis
+                                    boundaryLinks
+                                    maxButtons={8}
+                                    items={pageNumber}
+                                    activePage={this.props.searchQuery.activePage}
+                                    onSelect={this.pageSelection}
+                                />
+                            </div>
+
+                            <div id="sort-order">
+                                <ButtonToolbar>
+                                    <DropdownButton bsSize="small" title="Sort By:" id="sort-by-dropdown">
+                                        {sortByOptions.map(item => {
+                                            return (
+                                                <MenuItem key={item.key} onClick={() => this.sortBy(item.key)}
+                                                          active={this.props.searchQuery.sortBy === item.key}>{item.text}</MenuItem>
+                                            )
+                                        })}
+                                    </DropdownButton>
+                                </ButtonToolbar>
+
+                                <i className={iconClass} style={{marginLeft: 8}} onClick={() => this.sortDirection()}
+                                   aria-hidden="true"></i>
+                            </div>
                         </div>
-                        <div className="bookmark-cell title">Title</div>
-                        <div className="bookmark-cell url">Url</div>
-                        <div className="bookmark-cell tags">Tags</div>
-                        <div className="bookmark-cell tools"></div>
-                        <div className="bookmark-cell info"></div>
-                    </div>
-                </div>
 
-                <div className="bookmark-list-body">
-                    {
-                        this.props.bookmarks.map(bookmark => {
-                            return <BookmarkItem key={bookmark.id}
-                                                 bookmark={bookmark}
-                                                 selectedBookmarks={this.state.selectedBookmarks}
-                                                 editBookmarkAction={this.editBookmark}
-                                                 deleteBookmarkAction={this.confirmDeleteBookmark}
-                                                 restoreBookmarkAction={this.confirmRestoreBookmark}
-                                                 selectBookmarkAction={this.selectBookmark}
-                            />
-                        })
-                    }
-                </div>
+                        <div className="bookmark-list-body-header">
+                            <div className="bookmark-row">
+                                <div className="bookmark-cell checkbox">
+                                    <input type="checkbox" onChange={this.selectAllBookmarks}
+                                           checked={this.state.allSelected}/>
+                                </div>
+                                <div className="bookmark-cell title">Title</div>
+                                <div className="bookmark-cell url">Url</div>
+                                <div className="bookmark-cell tags">Tags</div>
+                                <div className="bookmark-cell tools"></div>
+                                <div className="bookmark-cell info"></div>
+                            </div>
+                        </div>
+
+                        <div className="bookmark-list-body">
+                            {
+                                this.props.bookmarks.map(bookmark => {
+                                    return <BookmarkItem key={bookmark.id}
+                                                         bookmark={bookmark}
+                                                         selectedBookmarks={this.state.selectedBookmarks}
+                                                         editBookmarkAction={this.editBookmark}
+                                                         deleteBookmarkAction={this.confirmDeleteBookmark}
+                                                         restoreBookmarkAction={this.confirmRestoreBookmark}
+                                                         selectBookmarkAction={this.selectBookmark}
+                                    />
+                                })
+                            }
+                        </div>
+                    </div>
+                ):(
+                    <div>
+                        <div style={{textAlign: 'center', marginTop: 12}}>
+                            <ListAction action={this.addBookmark}
+                                        tooltip="Add new bookmark."
+                                        icon="fa-plus" />
+                        </div>
+
+                        <div id="message">No bookmarks.</div>
+                    </div>
+                )}
+
 
                 <Confirm visible={this.state.showConfirm} action={this.deleteBookmarks} close={this.cancelDeleteBookmarks}/>
 
