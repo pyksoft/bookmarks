@@ -6,18 +6,24 @@ import autoBind from 'react-autobind';
 class AddTag extends Component {
     constructor(props) {
         super(props);
-
-        let tagsOptions = this.props.tags.map(tag => ({
-            value: tag.id,
-            label: tag.title
-        }));
         
         this.state = {
-            tagsOptions,
+            tagsOptions: [],
             selectedTags: []
         };
 
         autoBind(this);
+    }
+
+    componentWillReceiveProps() {
+        let tagsOptions = this.props.tags.map(tag => ({
+            value: tag.id,
+            label: tag.title
+        }));
+
+        this.setState({
+            tagsOptions
+        });
     }
 
     componentWillMount() {

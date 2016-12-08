@@ -98,7 +98,9 @@ class BookmarksList extends Component {
         await this.loadData();
 
         this.setState({
-            showAddTagModal: false
+            showAddTagModal: false,
+            allSelected: false,
+            selectedBookmarks: []
         });
     }
 
