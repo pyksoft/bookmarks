@@ -1,31 +1,34 @@
-import React, {Component} from 'react';
+import BaseComponent from './BaseComponent';
+import React from 'react';
 import '../App.css';
-import autoBind from 'react-autobind';
 import Navigation from './Navigation';
 import BookmarksPage from './bookmarks/BookmarksPage';
 import TagsPage from './tags/TagsPage';
 import ImportPage from './import/ImportPage';
 import HelpPage from './help/HelpPage';
+import appStore from '../appStore';
 
-class App extends Component {
+class App extends BaseComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            currentPage: 'Bookmarks'
+            page: 'Bookmarks'
         };
+    }
 
-        autoBind(this);
+    updateStateFromStore() {
+        this.setState({
+            page: this.store.uiPage
+        })
     }
 
     onPageChange(page) {
-        this.setState({
-            currentPage: page
-        });
+        appStore.setUiPage(page);
     }
 
     renderPage() {
-        switch (this.state.currentPage){
+        switch (this.store.uiPage){
             case 'Bookmarks':
                 return (
                     <BookmarksPage/>

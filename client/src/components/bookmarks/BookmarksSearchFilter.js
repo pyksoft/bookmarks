@@ -1,34 +1,34 @@
-import React, {Component} from 'react';
-import autoBind from 'react-autobind';
+import React from 'react';
+import BaseComponent from '../BaseComponent';
 import './BookmarksSearchFilter.css';
 import BookmarkSearchMode from './BookmarkSearchMode';
 import TagSelector from '../common/TagSelector';
 
-class BookmarksSearchFilter extends Component {
+class BookmarksSearchFilter extends BaseComponent {
     constructor(props) {
         super(props);
 
         this.state = {
             searchStr: '',
-            searchMode: {
-                noTags: {
-                    id: 'no_tags',
-                    active: false
-                },
-                tagsSelection: {
-                    id: 'tag_selection',
-                    active: false
-                },
-                deleted: {
-                    id: 'deleted',
-                    active: false
-                }
+            searchMode: '',
+            searchModeOptions: {
+                noTags: 'no_tags',
+                tagSelection: 'tag_selection',
+                deleted: 'deleted'
             },
             selectedTags: [],
             tagsOptions: []
         };
+    }
 
-        autoBind(this);
+    updateStateFromStore() {
+        let searchQuery = this.store.searchQuery;
+
+        this.setState({
+            searchMode: searchQuery.searchMode,
+            searchStr: searchQuery.searchStr,
+            selectedTags: searchQuery.searchTags
+        })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -43,36 +43,13 @@ class BookmarksSearchFilter extends Component {
     }
 
     search() {
-        let searchMode = '';
-        
-        for (let key of Object.keys(this.state.searchMode)) {
-            let searchModeItem = this.state.searchMode[key];
-            
-            if(searchModeItem.active) {
-                searchMode = searchModeItem.id;
-            }
-        }
-        
-        this.props.onSearch(this.state.searchStr, searchMode, this.state.selectedTags);
+        this.props.onSearch(this.state.searchStr, this.state.searchMode, this.state.selectedTags);
     }
 
     clear() {
         this.setState({
             searchStr: '',
-            searchMode: {
-                noTags: {
-                    id: 'no_tags',
-                    active: false
-                },
-                tagsSelection: {
-                    id: 'tag_selection',
-                    active: false
-                },
-                deleted: {
-                    id: 'deleted',
-                    active: false
-                }
-            },
+            searchMode: '',
             selectedTags: []
         }, () => {
             this.search();
@@ -80,19 +57,16 @@ class BookmarksSearchFilter extends Component {
     }
 
     toggleSearchMode(id) {
-        for (let key of Object.keys(this.state.searchMode)) {
-            let searchModeItem = this.state.searchMode[key];
-            if (searchModeItem.id === id) {
-                searchModeItem.active = !searchModeItem.active;
-            } else {
-                searchModeItem.active = false;
+        for (let key of Object.keys(this.state.searchModeOptions)) {
+            let searchModeItem = this.state.searchModeOptions[key];
+            if (searchModeItem === id) {
+                console.log(searchModeItem);
+                this.setState({
+                    searchMode: searchModeItem
+                });
+                break;
             }
         }
-
-        this.setState(this.state);
-        this.setState({
-            selectedTags: []
-        });
     }
 
     updateState(field, value) {
@@ -136,14 +110,14 @@ class BookmarksSearchFilter extends Component {
                     <h4 className="col-xs-12" style={{marginTop: 30}}>Mode:</h4>
 
                     <BookmarkSearchMode title="New bookmarks (no tags)"
-                                        id={this.state.searchMode.noTags.id}
-                                        active={this.state.searchMode.noTags.active}
+                                        id={this.state.searchModeOptions.noTags}
+                                        searchMode={this.state.searchMode}
                                         onToggle={this.toggleSearchMode}>
                         Search for bookmarks with no tags. Useful when soring newly imported bookmarks.
                     </BookmarkSearchMode>
                     <BookmarkSearchMode title="Tags selection"
-                                        id={this.state.searchMode.tagsSelection.id}
-                                        active={this.state.searchMode.tagsSelection.active}
+                                        id={this.state.searchModeOptions.tagSelection}
+                                        searchMode={this.state.searchMode}
                                         onToggle={this.toggleSearchMode}>
 
                         <TagSelector
@@ -156,8 +130,8 @@ class BookmarksSearchFilter extends Component {
                         />
                     </BookmarkSearchMode>
                     <BookmarkSearchMode title="Deleted bookmarks"
-                                        id={this.state.searchMode.deleted.id}
-                                        active={this.state.searchMode.deleted.active}
+                                        id={this.state.searchModeOptions.deleted}
+                                        searchMode={this.state.searchMode}
                                         onToggle={this.toggleSearchMode}>
                         Search for deleted bookmarks.
                     </BookmarkSearchMode>

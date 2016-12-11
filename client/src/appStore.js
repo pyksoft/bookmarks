@@ -1,6 +1,7 @@
 import Freezer from 'freezer-js';
 
-const State = new Freezer({
+const Store = new Freezer({
+    uiPage: 'Bookmarks',
     searchQuery: {
         activePage: 1,
         sortBy: 'title',
@@ -13,18 +14,18 @@ const State = new Freezer({
 
 const searchQueryMutations = {
     setActivePage(page) {
-        State.get().searchQuery.set({
+        Store.get().searchQuery.set({
             activePage: page
         });
     },
     setSortBy(key) {
-        State.get().searchQuery.set({
+        Store.get().searchQuery.set({
             sortBy: key,
             activePage: 1
         });
     },
     setSearchParams(searchStr, searchMode, searchTags) {
-        State.get().searchQuery.set({
+        Store.get().searchQuery.set({
             activePage: 1,
             searchStr,
             searchMode,
@@ -34,9 +35,14 @@ const searchQueryMutations = {
 };
 
 export default {
-    state: State,
-    getState: () => {
-        return State.get()
+    store: Store,
+    getStore: () => {
+        return Store.get()
+    },
+    setUiPage(page) {
+        Store.get().set({
+            uiPage: page
+        });
     },
     searchQuery: searchQueryMutations
 };

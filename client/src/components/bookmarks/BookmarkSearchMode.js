@@ -17,16 +17,18 @@ class BookmarkSearchMode extends Component {
     }
 
     render() {
+        let active = this.props.searchMode === this.props.id;
+
         let headerClass = classnames({
             'header': true,
             'col-xs-12': true,
-            'header-active': this.props.active
+            'header-active': active
         });
 
         let iconClass = classnames({
             'fa': true,
-            'fa-check-circle-o': this.props.active,
-            'fa-circle-o': !this.props.active
+            'fa-check-circle-o': active,
+            'fa-circle-o': !active
         });
 
         return (
@@ -35,7 +37,7 @@ class BookmarkSearchMode extends Component {
 
                 <span onClick={this.onToggle}>{this.props.title}</span>
 
-                {this.props.active ? (
+                {active ? (
                     <div className="content">
                         {this.props.children}
                     </div>

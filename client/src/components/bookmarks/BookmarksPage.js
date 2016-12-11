@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
-import autoBind from 'react-autobind';
+import React from 'react';
+import BaseComponent from '../BaseComponent';
 import BookmarksSearchFilter from './BookmarksSearchFilter';
 import BookmarksList from './BookmarksList';
 import BookmarkStatistics from './BookmarkStatistics';
 import './BookmarksPage.css';
 import apiService from '../../services/apiService';
 import settings from '../../services/settingsService';
-import storage from '../../storage';
+import appStorage from '../../appStore';
 
-class BookmarksPage extends Component {
+class BookmarksPage extends BaseComponent {
     constructor(props) {
         super(props);
 
@@ -16,18 +16,28 @@ class BookmarksPage extends Component {
             bookmarks: [],
             tags: [],
             total: 0,
-            searchQuery: storage.getState().searchQuery,
+            searchQuery: {
+                ...this.store.searchQuery
+            },
             stat: {
                 totalBookmarksCount: 0,
                 taggedBookmarksCount: 0,
                 deletedBookmarksCount: 0
             }
         };
+    }
 
-        autoBind(this);
+    updateStateFromStore() {
+        this.setState({
+            searchQuery: {
+                ...this.store.searchQuery
+            }
+        });
     }
 
     async componentDidMount() {
+        super.componentDidMount();
+
         let tags = await apiService.getTags();
 
         this.setState({
@@ -38,14 +48,17 @@ class BookmarksPage extends Component {
 
         await this.loadStatistic();
 
-        storage.state.on('update', () => {
+        appStorage.store.on('update', () => {
+            if (!this._mounted) return;
+
             this.setState({
-                searchQuery: storage.getState().searchQuery
+                searchQuery: appStorage.getStore().searchQuery
             }, () => {
                 this.loadData();
             });
         });
     }
+    
 
     async loadData() {
         let data = await apiService.getBookmarks(this.state.searchQuery);
@@ -57,7 +70,7 @@ class BookmarksPage extends Component {
         if (page > pageNumber || (page === 0 && data.total === 1)) {
             page = pageNumber;
 
-            return storage.searchQuery.setActivePage(page);
+            return appStorage.searchQuery.setActivePage(page);
         }
 
         this.setState({
@@ -90,11 +103,11 @@ class BookmarksPage extends Component {
     }
 
     onPageChange(page) {
-        storage.searchQuery.setActivePage(page);
+        appStorage.searchQuery.setActivePage(page);
     }
 
     onSortByChange(key) {
-        storage.searchQuery.setSortBy(key);
+        appStorage.searchQuery.setSortBy(key);
     }
 
     onSortDirectionChange() {
@@ -110,7 +123,7 @@ class BookmarksPage extends Component {
     }
 
     onSearch(searchStr, searchMode, searchTags) {
-        storage.searchQuery.setSearchParams(searchStr, searchMode, searchTags);
+        appStorage.searchQuery.setSearchParams(searchStr, searchMode, searchTags);
     }
 
     render() {
