@@ -30,6 +30,12 @@ class BookmarksList extends Component {
         autoBind(this);
     }
 
+    componentWillReceiveProps() {
+        this.setState({
+           selectedBookmarks: []
+        });
+    }
+
     loadData() {
         if (this.props.onLoadData){
             this.props.onLoadData();
