@@ -20,7 +20,11 @@ class BookmarkItem extends Component {
     getBookmarkTooltip(bookmark, tags){
         let result = '';
 
-        let date = moment(bookmark.creationDate).format('D MMM YYYY');
+        let date = '';
+        if (bookmark.creationDate) {
+            let jsDate = new Date(bookmark.creationDate);
+            date = moment(jsDate).format('D MMM YYYY');
+        }
 
         result += `Created: ${date} \n`;
 
