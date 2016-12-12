@@ -60,7 +60,6 @@ class BookmarksSearchFilter extends BaseComponent {
         for (let key of Object.keys(this.state.searchModeOptions)) {
             let searchModeItem = this.state.searchModeOptions[key];
             if (searchModeItem === id) {
-                console.log(searchModeItem);
                 this.setState({
                     searchMode: searchModeItem
                 });

@@ -58,7 +58,6 @@ class BookmarksPage extends BaseComponent {
             });
         });
     }
-    
 
     async loadData() {
         let data = await apiService.getBookmarks(this.state.searchQuery);
@@ -111,15 +110,7 @@ class BookmarksPage extends BaseComponent {
     }
 
     onSortDirectionChange() {
-        this.setState({
-            searchQuery: {
-                ...this.state.searchQuery,
-                sortAsc: !this.state.searchQuery.sortAsc,
-                activePage: 1
-            }
-        }, () => {
-            this.loadData();
-        });
+        appStorage.searchQuery.setSortDirection();
     }
 
     onSearch(searchStr, searchMode, searchTags) {

@@ -24,6 +24,14 @@ const searchQueryMutations = {
             activePage: 1
         });
     },
+    setSortDirection() {
+        let direction = Store.get().searchQuery.sortAsc;
+        
+        Store.get().searchQuery.set({
+            sortAsc: !direction,
+            activePage: 1 
+        });
+    },
     setSearchParams(searchStr, searchMode, searchTags) {
         Store.get().searchQuery.set({
             activePage: 1,
