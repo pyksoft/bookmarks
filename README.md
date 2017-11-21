@@ -2,9 +2,7 @@
 
 Simple bookmarks management utility
 
-<a href="https://yegor-sytnyk.github.io/bookmarks-archive/"><img src="https://cloud.githubusercontent.com/assets/3333358/20918476/d2884e84-bbc9-11e6-9219-77e921df61ba.PNG"/></a>
-
-Demo available here: [https://yegor-sytnyk.github.io/bookmarks-archive/](https://yegor-sytnyk.github.io/bookmarks-archive/).
+<img src="https://cloud.githubusercontent.com/assets/3333358/20918476/d2884e84-bbc9-11e6-9219-77e921df61ba.PNG"/>
 
 Demo site do not have persistence and all changes will disappear after full page reload.
 
